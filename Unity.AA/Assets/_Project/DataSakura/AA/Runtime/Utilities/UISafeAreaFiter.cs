@@ -35,7 +35,7 @@ namespace DataSakura.AA.Runtime.Utilities
             anchorMin.y /= 3;
 #endif
             
-            Log.Default.D($"anchor min {anchorMin} max {anchorMax}");
+            Log.Default.D("SAFE AREA",$"anchor min {anchorMin} max {anchorMax}");
             
             anchorMin.x /= Screen.width;
             anchorMin.y /= Screen.height;

@@ -1,3 +1,5 @@
+using DataSakura.AA.Runtime.Utilities;
+using Silverfox.Runtime.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -8,22 +10,20 @@ namespace DataSakura.AA.Runtime.Battle.Joystick
         [SerializeField] protected RectTransform background;
         [SerializeField] private RectTransform directionIndicator;
         [SerializeField] private RectTransform handle;
+        [SerializeField] private BattleCanvasProvider canvasProvider;
 
         protected Vector2 Direction => new Vector2(-_input.x, -_input.y);
         protected bool IsJoystickActiveNow { get; private set; }
 
         private JoystickSettings _joystickSettings;
         private RectTransform _baseRect;
-        private Canvas _canvas;
         private Vector2 _input = Vector2.zero;
+
 
         protected virtual void Awake()
         {
-            _baseRect = GetComponent<RectTransform>();
-            _canvas = GetComponentInParent<Canvas>();
-
-            if (_canvas == null)
-                Debug.LogError("The Joystick is not placed inside a canvas");
+            _joystickSettings = AssetService.Load<JoystickSettings>("JoystickSettings");
+            _baseRect = (RectTransform)transform;
 
             var center = new Vector2(0.5f, 0.5f);
             background.pivot = center;
@@ -37,7 +37,7 @@ namespace DataSakura.AA.Runtime.Battle.Joystick
         {
             var position = RectTransformUtility.WorldToScreenPoint(eventData.enterEventCamera, background.position);
             var radius = background.sizeDelta * _joystickSettings.HandleOffsetActivation;
-            _input = (eventData.position - position) / (radius * _canvas.scaleFactor);
+            _input = (eventData.position - position) / (radius * canvasProvider.Canvas.scaleFactor);
 
             //Ограничение грибка джойстика в UI, чтобы не вылезал за пределы своей области
             handle.anchoredPosition = Vector2.ClampMagnitude(radius * _input, handle.sizeDelta.x / 3);
@@ -58,8 +58,8 @@ namespace DataSakura.AA.Runtime.Battle.Joystick
                 return;
             }
 
-            Vector2 sizeDelta;
-            var pivotOffset = _baseRect.pivot * (sizeDelta = _baseRect.sizeDelta);
+            Vector2 sizeDelta = _baseRect.sizeDelta;
+            var pivotOffset = _baseRect.pivot * sizeDelta;
             background.anchoredPosition = localPoint - background.anchorMax * sizeDelta + pivotOffset;
         }
 
