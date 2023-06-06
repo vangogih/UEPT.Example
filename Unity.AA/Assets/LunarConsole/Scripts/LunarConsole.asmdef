@@ -1,0 +1,16 @@
+{
+    "name": "LunarConsole",
+    "rootNamespace": "",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "!SILVERFOX_PROD"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
