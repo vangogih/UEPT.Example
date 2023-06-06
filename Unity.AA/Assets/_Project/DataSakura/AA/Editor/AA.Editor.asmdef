@@ -1,0 +1,16 @@
+{
+    "name": "AA.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:67ffc7f0a2b707b48a0afa6c35fc6c41"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
