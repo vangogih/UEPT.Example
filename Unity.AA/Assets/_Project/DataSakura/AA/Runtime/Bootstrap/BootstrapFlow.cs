@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿using DataSakura.AA.Runtime.Utilities.Logging;
 using VContainer.Unity;
 
 namespace DataSakura.AA.Runtime.Bootstrap
@@ -7,7 +7,7 @@ namespace DataSakura.AA.Runtime.Bootstrap
     {
         public void Start()
         {
-            Debug.Log("Hello, World!");
+            Log.Default.D("BootstrapFlow.Start()");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using VContainer.Unity;
+﻿using DataSakura.AA.Runtime.Utilities.Logging;
+using VContainer.Unity;
 
 namespace DataSakura.AA.Runtime.Battle
 {
@@ -6,6 +7,7 @@ namespace DataSakura.AA.Runtime.Battle
     {
         public void Start()
         {
+            Log.Default.D("BattleFlow.Start()");
         }
     }
 }

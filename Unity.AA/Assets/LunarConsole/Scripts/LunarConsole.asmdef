@@ -9,7 +9,7 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
-        "!SILVERFOX_PROD"
+        "!DATASAKURA_PROD"
     ],
     "versionDefines": [],
     "noEngineReferences": false
