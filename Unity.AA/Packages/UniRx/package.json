@@ -1,0 +1,9 @@
+  {
+    "name": "com.neuecc.unirx",
+    "displayName": "UniRx",
+    "version": "7.1.0",
+    "unity": "2018.4",
+    "description": "UniRx (Reactive Extensions for Unity) is a reimplementation of the .NET Reactive Extensions. ",
+    "keywords": [],
+    "dependencies": {}
+  }

@@ -1,0 +1,9 @@
+  {
+    "name": "com.odin.inspector",
+    "displayName": "Odin Inspector",
+    "version": "3.0.4",
+    "unity": "2018.4",
+    "description": "Odin Inspector is a plugin for Unity that lets you enjoy all the workflow benefits of having a powerful, customized and user-friendly editor, without ever having to write a single line of custom editor code.",
+    "keywords": [],
+    "dependencies": {}
+  }

@@ -1,5 +1,24 @@
 {
   "dependencies": {
+    "com.cysharp.unitask": {
+      "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "f2773f585e762480c835ac718b82b87cb111e500"
+    },
+    "com.neuecc.unirx": {
+      "version": "file:UniRx",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.odin.inspector": {
+      "version": "file:Sirenix",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.collab-proxy": {
       "version": "2.0.4",
       "depth": 0,
@@ -55,6 +74,13 @@
     },
     "com.unity.ide.vscode": {
       "version": "1.2.5",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.nuget.mono-cecil": {
+      "version": "1.11.4",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
@@ -134,6 +160,15 @@
         "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
+    },
+    "jp.hadashikick.vcontainer": {
+      "version": "https://github.com/hadashiA/VContainer.git?path=VContainer/Assets/VContainer#1.13.1",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.nuget.mono-cecil": "1.10.1"
+      },
+      "hash": "99c6e8c703b2a14caca566f950aafd0ba3a35f85"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",
