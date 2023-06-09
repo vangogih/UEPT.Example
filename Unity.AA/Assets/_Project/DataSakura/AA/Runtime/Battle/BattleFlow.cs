@@ -20,7 +20,7 @@ namespace DataSakura.AA.Runtime.Battle
         {
             await _loadingService.BeginLoading(_planeFactory);
 
-            _planeFactory.SpawnOrGetPlayerPlane();
+            _planeFactory.SpawnOrGetPlayerPlane(RuntimeConstants.Planes.Corncob);
             Log.Battle.D("BattleFlow.Start()");
         }
 

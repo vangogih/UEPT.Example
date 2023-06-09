@@ -1,8 +1,10 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using DataSakura.AA.Runtime.Battle.Joystick;
 using DataSakura.AA.Runtime.Utilities;
 using HeneGames.Airplane;
 using UnityEngine;
+using Resources = UnityEngine.Resources;
 
 namespace DataSakura.AA.Runtime.Battle
 {
@@ -10,7 +12,7 @@ namespace DataSakura.AA.Runtime.Battle
     {
         private readonly ConfigContainer _configs;
         private readonly JoystickInput _joystick;
-        private PlaneView _prefab;
+        private Dictionary<string, PlaneView> _prefabs;
         private PlaneView _playerPlane;
 
         public PlaneFactory(ConfigContainer configs, JoystickInput joystick)
@@ -21,16 +23,20 @@ namespace DataSakura.AA.Runtime.Battle
 
         UniTask ILoadUnit.Load()
         {
-            _prefab = AssetService.R.Load<PlaneView>("Plane");
+            string[] planesToLoad = RuntimeConstants.Planes.All;
+            _prefabs = new Dictionary<string, PlaneView>(planesToLoad.Length);
+
+            foreach (string planeToLoad in planesToLoad)
+                _prefabs.Add(planeToLoad, Resources.Load<PlaneView>($"Planes/{planeToLoad}"));
             return UniTask.CompletedTask;
         }
 
-        public PlaneView SpawnOrGetPlayerPlane()
+        public PlaneView SpawnOrGetPlayerPlane(string planeName)
         {
             if (_playerPlane != null)
                 return _playerPlane;
 
-            _playerPlane = Object.Instantiate(_prefab);
+            _playerPlane = Object.Instantiate(_prefabs[planeName]);
             _playerPlane.Initialize(_configs.Battle.PlaneConfig, _joystick);
             return _playerPlane;
         }

@@ -15,31 +15,7 @@ namespace HeneGames.Airplane
             Takeoff,
         }
 
-        #region Private variables
-
-        private List<SimpleAirPlaneCollider> airPlaneColliders = new List<SimpleAirPlaneCollider>();
-
-        private float maxSpeed = 0.6f;
-        private float currentYawSpeed;
-        private float currentPitchSpeed;
-        private float currentRollSpeed;
-        private float currentSpeed;
-        private float currentEngineLightIntensity;
-        private float currentEngineSoundPitch;
-
-        private bool planeIsDead;
-
-        private Rigidbody rb;
-        private Runway currentRunway;
-
-        //Input variables
-        private float inputH;
-        private float inputV;
-        private bool inputTurbo;
-        private bool inputYawLeft;
-        private bool inputYawRight;
-
-        #endregion
+        private List<SimpleAirPlaneCollider> _airPlaneColliders = new List<SimpleAirPlaneCollider>();
 
         public AirplaneState airplaneState;
 
@@ -124,20 +100,39 @@ namespace HeneGames.Airplane
         [SerializeField]
         private float takeoffLenght = 30f;
 
+        private float _maxSpeed = 0.6f;
+        private float _currentYawSpeed;
+        private float _currentPitchSpeed;
+        private float _currentRollSpeed;
+        private float _currentSpeed;
+        private float _currentEngineLightIntensity;
+        private float _currentEngineSoundPitch;
+
+        private bool _planeIsDead;
+
+        private Rigidbody _rb;
+        private Runway _currentRunway;
+
+        private float _inputH;
+        private float _inputV;
+        private bool _inputTurbo;
+        private bool _inputYawLeft;
+        private bool _inputYawRight;
+
         private PlaneConfig _planeConfig;
         private JoystickInput _joystickInput;
 
         private void Start()
         {
             //Setup speeds
-            maxSpeed = defaultSpeed;
-            currentSpeed = defaultSpeed;
+            _maxSpeed = defaultSpeed;
+            _currentSpeed = defaultSpeed;
 
             //Get and set rigidbody
-            rb = GetComponent<Rigidbody>();
-            rb.isKinematic = true;
-            rb.useGravity = false;
-            rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+            _rb = GetComponent<Rigidbody>();
+            _rb.isKinematic = true;
+            _rb.useGravity = false;
+            _rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
 
             SetupColliders(crashCollidersRoot);
         }
@@ -146,8 +141,8 @@ namespace HeneGames.Airplane
         {
             //Rotate inputs
             var d = _joystickInput.Direction;
-            inputH = -d.x * _planeConfig.Responsiveness; //Input.GetAxis("Horizontal");
-            inputV = d.y * _planeConfig.Responsiveness;  //Input.GetAxis("Vertical");
+            _inputH = d.x * _planeConfig.Responsiveness; //Input.GetAxis("Horizontal");
+            _inputV = d.y * _planeConfig.Responsiveness; //Input.GetAxis("Vertical");
 
             //Yaw axis inputs
             // inputYawLeft = Input.GetKey(KeyCode.Q);
@@ -190,7 +185,7 @@ namespace HeneGames.Airplane
             UpdatePropellersAndLights();
 
             //Airplane move only if not dead
-            if (!planeIsDead) {
+            if (!_planeIsDead) {
                 Movement();
                 SidewaysForceCalculation();
             }
@@ -199,116 +194,116 @@ namespace HeneGames.Airplane
             }
 
             //Crash
-            if (!planeIsDead && HitSometing()) {
+            if (!_planeIsDead && HitSometing()) {
                 Crash();
             }
         }
 
         private void SidewaysForceCalculation()
         {
-            float _mutiplierXRot = sidewaysMovement * sidewaysMovementXRot;
-            float _mutiplierYRot = sidewaysMovement * sidewaysMovementYRot;
+            float mutiplierXRot = sidewaysMovement * sidewaysMovementXRot;
+            float mutiplierYRot = sidewaysMovement * sidewaysMovementYRot;
 
-            float _mutiplierYPos = sidewaysMovement * sidewaysMovementYPos;
+            float mutiplierYPos = sidewaysMovement * sidewaysMovementYPos;
 
             //Right side 
             if (transform.localEulerAngles.z > 270f && transform.localEulerAngles.z < 360f) {
-                float _angle = (transform.localEulerAngles.z - 270f) / (360f - 270f);
-                float _invert = 1f - _angle;
+                float angle = (transform.localEulerAngles.z - 270f) / (360f - 270f);
+                float invert = 1f - angle;
 
-                transform.Rotate(Vector3.up * (_invert * _mutiplierYRot) * Time.deltaTime);
-                transform.Rotate(Vector3.right * (-_invert * _mutiplierXRot) * currentPitchSpeed * Time.deltaTime);
+                transform.Rotate(Vector3.up * (invert * mutiplierYRot * Time.deltaTime));
+                transform.Rotate(Vector3.right * (-invert * mutiplierXRot * _currentPitchSpeed * Time.deltaTime));
 
-                transform.Translate(transform.up * (_invert * _mutiplierYPos) * Time.deltaTime);
+                transform.Translate(transform.up * (invert * mutiplierYPos * Time.deltaTime));
             }
 
             //Left side
             if (transform.localEulerAngles.z > 0f && transform.localEulerAngles.z < 90f) {
-                float _angle = transform.localEulerAngles.z / 90f;
+                float angle = transform.localEulerAngles.z / 90f;
 
-                transform.Rotate(-Vector3.up * (_angle * _mutiplierYRot) * Time.deltaTime);
-                transform.Rotate(Vector3.right * (-_angle * _mutiplierXRot) * currentPitchSpeed * Time.deltaTime);
+                transform.Rotate(-Vector3.up * (angle * mutiplierYRot * Time.deltaTime));
+                transform.Rotate(Vector3.right * (-angle * mutiplierXRot * _currentPitchSpeed * Time.deltaTime));
 
-                transform.Translate(transform.up * (_angle * _mutiplierYPos) * Time.deltaTime);
+                transform.Translate(transform.up * (angle * mutiplierYPos * Time.deltaTime));
             }
 
             //Right side down
             if (transform.localEulerAngles.z > 90f && transform.localEulerAngles.z < 180f) {
-                float _angle = (transform.localEulerAngles.z - 90f) / (180f - 90f);
-                float _invert = 1f - _angle;
+                float angle = (transform.localEulerAngles.z - 90f) / (180f - 90f);
+                float invert = 1f - angle;
 
-                transform.Translate(transform.up * (_invert * _mutiplierYPos) * Time.deltaTime);
-                transform.Rotate(Vector3.right * (-_invert * _mutiplierXRot) * currentPitchSpeed * Time.deltaTime);
+                transform.Translate(transform.up * (invert * mutiplierYPos * Time.deltaTime));
+                transform.Rotate(Vector3.right * (-invert * mutiplierXRot * _currentPitchSpeed * Time.deltaTime));
             }
 
             //Left side down
             if (transform.localEulerAngles.z > 180f && transform.localEulerAngles.z < 270f) {
-                float _angle = (transform.localEulerAngles.z - 180f) / (270f - 180f);
+                float angle = (transform.localEulerAngles.z - 180f) / (270f - 180f);
 
-                transform.Translate(transform.up * (_angle * _mutiplierYPos) * Time.deltaTime);
-                transform.Rotate(Vector3.right * (-_angle * _mutiplierXRot) * currentPitchSpeed * Time.deltaTime);
+                transform.Translate(transform.up * (angle * mutiplierYPos * Time.deltaTime));
+                transform.Rotate(Vector3.right * (-angle * mutiplierXRot * _currentPitchSpeed * Time.deltaTime));
             }
         }
 
         private void Movement()
         {
             //Move forward
-            transform.Translate(Vector3.forward * currentSpeed * Time.deltaTime);
+            transform.Translate(Vector3.forward * (_currentSpeed * Time.deltaTime));
 
             //Rotate airplane by inputs
-            transform.Rotate(Vector3.forward * -inputH * currentRollSpeed * Time.deltaTime);
-            transform.Rotate(Vector3.right * inputV * currentPitchSpeed * Time.deltaTime);
+            transform.Rotate(Vector3.forward * (-_inputH * _currentRollSpeed * Time.deltaTime));
+            transform.Rotate(Vector3.right * (_inputV * _currentPitchSpeed * Time.deltaTime));
 
             //Rotate yaw
-            if (inputYawRight) {
-                transform.Rotate(Vector3.up * currentYawSpeed * Time.deltaTime);
+            if (_inputYawRight) {
+                transform.Rotate(Vector3.up * (_currentYawSpeed * Time.deltaTime));
             }
-            else if (inputYawLeft) {
-                transform.Rotate(-Vector3.up * currentYawSpeed * Time.deltaTime);
+            else if (_inputYawLeft) {
+                transform.Rotate(-Vector3.up * (_currentYawSpeed * Time.deltaTime));
             }
 
             //Accelerate and deacclerate
-            if (currentSpeed < maxSpeed) {
-                currentSpeed += accelerating * Time.deltaTime;
+            if (_currentSpeed < _maxSpeed) {
+                _currentSpeed += accelerating * Time.deltaTime;
             }
             else {
-                currentSpeed -= deaccelerating * Time.deltaTime;
+                _currentSpeed -= deaccelerating * Time.deltaTime;
             }
 
             //Turbo
-            if (inputTurbo) {
+            if (_inputTurbo) {
                 //Set speed to turbo speed and rotation to turbo values
-                maxSpeed = turboSpeed;
+                _maxSpeed = turboSpeed;
 
-                currentYawSpeed = yawSpeed * yawTurboMultiplier;
-                currentPitchSpeed = pitchSpeed * pitchTurboMultiplier;
-                currentRollSpeed = rollSpeed * rollTurboMultiplier;
+                _currentYawSpeed = yawSpeed * yawTurboMultiplier;
+                _currentPitchSpeed = pitchSpeed * pitchTurboMultiplier;
+                _currentRollSpeed = rollSpeed * rollTurboMultiplier;
 
                 //Engine lights
-                currentEngineLightIntensity = turbineLightTurbo;
+                _currentEngineLightIntensity = turbineLightTurbo;
 
                 //Effects
                 ChangeWingTrailEffectThickness(trailThickness);
 
                 //Audio
-                currentEngineSoundPitch = turboSoundPitch;
+                _currentEngineSoundPitch = turboSoundPitch;
             }
             else {
                 //Speed and rotation normal
-                maxSpeed = defaultSpeed;
+                _maxSpeed = defaultSpeed;
 
-                currentYawSpeed = yawSpeed;
-                currentPitchSpeed = pitchSpeed;
-                currentRollSpeed = rollSpeed;
+                _currentYawSpeed = yawSpeed;
+                _currentPitchSpeed = pitchSpeed;
+                _currentRollSpeed = rollSpeed;
 
                 //Engine lights
-                currentEngineLightIntensity = turbineLightDefault;
+                _currentEngineLightIntensity = turbineLightDefault;
 
                 //Effects
                 ChangeWingTrailEffectThickness(0f);
 
                 //Audio
-                currentEngineSoundPitch = defaultSoundPitch;
+                _currentEngineSoundPitch = defaultSoundPitch;
             }
         }
 
@@ -316,9 +311,9 @@ namespace HeneGames.Airplane
 
         #region Landing State
 
-        public void AddLandingRunway(Runway _landingThisRunway)
+        public void AddLandingRunway(Runway landingThisRunway)
         {
-            currentRunway = _landingThisRunway;
+            _currentRunway = landingThisRunway;
         }
 
         //My trasform is runway landing adjuster child
@@ -329,7 +324,7 @@ namespace HeneGames.Airplane
             ChangeWingTrailEffectThickness(0f);
 
             //Stop speed
-            currentSpeed = Mathf.Lerp(currentSpeed, 0f, Time.deltaTime);
+            _currentSpeed = Mathf.Lerp(_currentSpeed, 0f, Time.deltaTime);
 
             //Set local rotation to zero
             transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(0f, 0f, 0f), 2f * Time.deltaTime);
@@ -344,23 +339,23 @@ namespace HeneGames.Airplane
             UpdatePropellersAndLights();
 
             //Reset colliders
-            foreach (SimpleAirPlaneCollider _airPlaneCollider in airPlaneColliders) {
-                _airPlaneCollider.collideSometing = false;
+            foreach (SimpleAirPlaneCollider airPlaneCollider in _airPlaneColliders) {
+                airPlaneCollider.collideSometing = false;
             }
 
             //Accelerate
-            if (currentSpeed < turboSpeed) {
-                currentSpeed += (accelerating * 2f) * Time.deltaTime;
+            if (_currentSpeed < turboSpeed) {
+                _currentSpeed += (accelerating * 2f) * Time.deltaTime;
             }
 
             //Move forward
-            transform.Translate(Vector3.forward * currentSpeed * Time.deltaTime);
+            transform.Translate(Vector3.forward * _currentSpeed * Time.deltaTime);
 
             //Far enough from the runaway go back to flying state
-            float _distanceToRunway = Vector3.Distance(transform.position, currentRunway.transform.position);
+            float distanceToRunway = Vector3.Distance(transform.position, _currentRunway.transform.position);
 
-            if (_distanceToRunway > takeoffLenght) {
-                currentRunway = null;
+            if (distanceToRunway > takeoffLenght) {
+                _currentRunway = null;
                 airplaneState = AirplaneState.Flying;
             }
         }
@@ -375,9 +370,9 @@ namespace HeneGames.Airplane
                 return;
 
             if (airplaneState == AirplaneState.Flying) {
-                engineSoundSource.pitch = Mathf.Lerp(engineSoundSource.pitch, currentEngineSoundPitch, 10f * Time.deltaTime);
+                engineSoundSource.pitch = Mathf.Lerp(engineSoundSource.pitch, _currentEngineSoundPitch, 10f * Time.deltaTime);
 
-                if (planeIsDead) {
+                if (_planeIsDead) {
                     engineSoundSource.volume = Mathf.Lerp(engineSoundSource.volume, 0f, 10f * Time.deltaTime);
                 }
                 else {
@@ -400,15 +395,15 @@ namespace HeneGames.Airplane
 
         private void UpdatePropellersAndLights()
         {
-            if (!planeIsDead) {
+            if (!_planeIsDead) {
                 //Rotate propellers if any
                 if (propellers.Length > 0) {
-                    RotatePropellers(propellers, currentSpeed * propelSpeedMultiplier);
+                    RotatePropellers(propellers, _currentSpeed * propelSpeedMultiplier);
                 }
 
                 //Control lights if any
                 if (turbineLights.Length > 0) {
-                    ControlEngineLights(turbineLights, currentEngineLightIntensity);
+                    ControlEngineLights(turbineLights, _currentEngineLightIntensity);
                 }
             }
             else {
@@ -424,69 +419,69 @@ namespace HeneGames.Airplane
             }
         }
 
-        private void SetupColliders(Transform _root)
+        private void SetupColliders(Transform root)
         {
-            if (_root == null)
+            if (root == null)
                 return;
 
             //Get colliders from root transform
-            Collider[] colliders = _root.GetComponentsInChildren<Collider>();
+            Collider[] colliders = root.GetComponentsInChildren<Collider>();
 
             //If there are colliders put components in them
             for (int i = 0; i < colliders.Length; i++) {
                 //Change collider to trigger
                 colliders[i].isTrigger = true;
 
-                GameObject _currentObject = colliders[i].gameObject;
+                GameObject currentObject = colliders[i].gameObject;
 
                 //Add airplane collider to it and put it on the list
-                SimpleAirPlaneCollider _airplaneCollider = _currentObject.AddComponent<SimpleAirPlaneCollider>();
-                airPlaneColliders.Add(_airplaneCollider);
+                SimpleAirPlaneCollider airplaneCollider = currentObject.AddComponent<SimpleAirPlaneCollider>();
+                _airPlaneColliders.Add(airplaneCollider);
 
                 //Add airplane conroller reference to collider
-                _airplaneCollider.view = this;
+                airplaneCollider.view = this;
 
                 //Add rigid body to it
-                Rigidbody _rb = _currentObject.AddComponent<Rigidbody>();
-                _rb.useGravity = false;
-                _rb.isKinematic = true;
-                _rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+                Rigidbody rb = currentObject.AddComponent<Rigidbody>();
+                rb.useGravity = false;
+                rb.isKinematic = true;
+                rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
             }
         }
 
-        private void RotatePropellers(GameObject[] _rotateThese, float _speed)
+        private void RotatePropellers(GameObject[] rotateThese, float speed)
         {
-            for (int i = 0; i < _rotateThese.Length; i++) {
-                _rotateThese[i].transform.Rotate(Vector3.forward * -_speed * Time.deltaTime);
+            for (int i = 0; i < rotateThese.Length; i++) {
+                rotateThese[i].transform.Rotate(Vector3.forward * -speed * Time.deltaTime);
             }
         }
 
-        private void ControlEngineLights(Light[] _lights, float _intensity)
+        private void ControlEngineLights(Light[] lights, float intensity)
         {
-            for (int i = 0; i < _lights.Length; i++) {
-                if (!planeIsDead) {
-                    _lights[i].intensity = Mathf.Lerp(_lights[i].intensity, _intensity, 10f * Time.deltaTime);
+            for (int i = 0; i < lights.Length; i++) {
+                if (!_planeIsDead) {
+                    lights[i].intensity = Mathf.Lerp(lights[i].intensity, intensity, 10f * Time.deltaTime);
                 }
                 else {
-                    _lights[i].intensity = Mathf.Lerp(_lights[i].intensity, 0f, 10f * Time.deltaTime);
+                    lights[i].intensity = Mathf.Lerp(lights[i].intensity, 0f, 10f * Time.deltaTime);
                 }
             }
         }
 
-        private void ChangeWingTrailEffectThickness(float _thickness)
+        private void ChangeWingTrailEffectThickness(float thickness)
         {
             for (int i = 0; i < wingTrailEffects.Length; i++) {
-                wingTrailEffects[i].startWidth = Mathf.Lerp(wingTrailEffects[i].startWidth, _thickness, Time.deltaTime * 10f);
+                wingTrailEffects[i].startWidth = Mathf.Lerp(wingTrailEffects[i].startWidth, thickness, Time.deltaTime * 10f);
             }
         }
 
         private bool HitSometing()
         {
-            for (int i = 0; i < airPlaneColliders.Count; i++) {
-                if (airPlaneColliders[i].collideSometing) {
+            for (int i = 0; i < _airPlaneColliders.Count; i++) {
+                if (_airPlaneColliders[i].collideSometing) {
                     //Reset colliders
-                    foreach (SimpleAirPlaneCollider _airPlaneCollider in airPlaneColliders) {
-                        _airPlaneCollider.collideSometing = false;
+                    foreach (SimpleAirPlaneCollider airPlaneCollider in _airPlaneColliders) {
+                        airPlaneCollider.collideSometing = false;
                     }
 
                     return true;
@@ -499,19 +494,17 @@ namespace HeneGames.Airplane
         private void Crash()
         {
             //Set rigidbody to non cinematic
-            rb.isKinematic = false;
-            rb.useGravity = true;
+            _rb.isKinematic = false;
+            _rb.useGravity = true;
 
             //Change every collider trigger state and remove rigidbodys
-            for (int i = 0; i < airPlaneColliders.Count; i++) {
-                airPlaneColliders[i].GetComponent<Collider>().isTrigger = false;
-                Destroy(airPlaneColliders[i].GetComponent<Rigidbody>());
+            for (int i = 0; i < _airPlaneColliders.Count; i++) {
+                _airPlaneColliders[i].GetComponent<Collider>().isTrigger = false;
+                Destroy(_airPlaneColliders[i].GetComponent<Rigidbody>());
             }
 
             //Kill player
-            planeIsDead = true;
-
-            //Here you can add your own code...
+            _planeIsDead = true;
         }
 
         #endregion
@@ -524,19 +517,19 @@ namespace HeneGames.Airplane
         /// <returns></returns>
         public float PercentToMaxSpeed()
         {
-            float _percentToMax = currentSpeed / turboSpeed;
+            float percentToMax = _currentSpeed / turboSpeed;
 
-            return _percentToMax;
+            return percentToMax;
         }
 
         public bool PlaneIsDead()
         {
-            return planeIsDead;
+            return _planeIsDead;
         }
 
         public bool UsingTurbo()
         {
-            if (maxSpeed == turboSpeed) {
+            if (_maxSpeed == turboSpeed) {
                 return true;
             }
 
@@ -545,7 +538,7 @@ namespace HeneGames.Airplane
 
         public float CurrentSpeed()
         {
-            return currentSpeed;
+            return _currentSpeed;
         }
 
         #endregion

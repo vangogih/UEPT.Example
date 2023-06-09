@@ -15,9 +15,9 @@ namespace DataSakura.AA.Runtime.Battle
         }
 
         [Button]
-        public void Spawn()
+        public void Spawn(string planeName)
         {
-            _factory.SpawnOrGetPlayerPlane();
+            _factory.SpawnOrGetPlayerPlane(planeName);
         }
     }
 }
