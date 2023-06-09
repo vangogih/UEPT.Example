@@ -1,7 +1,8 @@
-using DataSakura.AA.Runtime.Utilities;
+using Cysharp.Threading.Tasks;
 using Silverfox.Runtime.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using VContainer;
 
 namespace DataSakura.AA.Runtime.Battle.Joystick
 {
@@ -12,17 +13,26 @@ namespace DataSakura.AA.Runtime.Battle.Joystick
         [SerializeField] private RectTransform handle;
         [SerializeField] private BattleCanvasProvider canvasProvider;
 
-        protected Vector2 Direction => new Vector2(-_input.x, -_input.y);
+        public Vector2 Direction => new Vector2(-_input.x, -_input.y);
         protected bool IsJoystickActiveNow { get; private set; }
 
-        private JoystickSettings _joystickSettings;
+        private JoystickConfig _joystickConfig;
         private RectTransform _baseRect;
         private Vector2 _input = Vector2.zero;
 
+        [Inject]
+        private void Inject(ConfigContainer configs)
+        {
+            _joystickConfig = configs.Battle.JoystickConfig;
+        }
 
         protected virtual void Awake()
         {
-            _joystickSettings = AssetService.Load<JoystickSettings>("JoystickSettings");
+            if (_joystickConfig == null) {
+                var configContainer = new ConfigContainer();
+                configContainer.Load().Forget();
+                _joystickConfig = configContainer.Battle.JoystickConfig;
+            }
             _baseRect = (RectTransform)transform;
 
             var center = new Vector2(0.5f, 0.5f);
@@ -36,7 +46,7 @@ namespace DataSakura.AA.Runtime.Battle.Joystick
         public virtual void OnDrag(PointerEventData eventData)
         {
             var position = RectTransformUtility.WorldToScreenPoint(eventData.enterEventCamera, background.position);
-            var radius = background.sizeDelta * _joystickSettings.HandleOffsetActivation;
+            var radius = background.sizeDelta * _joystickConfig.HandleOffsetActivation;
             _input = (eventData.position - position) / (radius * canvasProvider.Canvas.scaleFactor);
 
             //Ограничение грибка джойстика в UI, чтобы не вылезал за пределы своей области
@@ -73,7 +83,7 @@ namespace DataSakura.AA.Runtime.Battle.Joystick
 
         private void HandleInput(float magnitude, Vector2 normalised)
         {
-            if (magnitude > _joystickSettings.JoystickJitter) {
+            if (magnitude > _joystickConfig.JoystickJitter) {
                 _input = normalised;
                 IsJoystickActiveNow = true;
             }

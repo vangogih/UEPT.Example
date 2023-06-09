@@ -1,4 +1,5 @@
-﻿using DataSakura.AA.Runtime.Utilities.Logging;
+﻿using DataSakura.AA.Runtime.Utilities;
+using DataSakura.AA.Runtime.Utilities.Logging;
 using UnityEngine.SceneManagement;
 using VContainer.Unity;
 
@@ -6,10 +7,20 @@ namespace DataSakura.AA.Runtime.Bootstrap
 {
     public class BootstrapFlow : IStartable
     {
-        public void Start()
+        private readonly LoadingService _loadingService;
+        private readonly ConfigContainer _configContainer;
+
+        public BootstrapFlow(LoadingService loadingService, ConfigContainer configContainer)
+        {
+            _loadingService = loadingService;
+            _configContainer = configContainer;
+        }
+
+        public async void Start()
         {
             Log.Default.D("BootstrapFlow.Start()");
 
+            await _loadingService.BeginLoading(_configContainer);
             SceneManager.LoadScene(RuntimeConstants.Scenes.Battle);
         }
     }

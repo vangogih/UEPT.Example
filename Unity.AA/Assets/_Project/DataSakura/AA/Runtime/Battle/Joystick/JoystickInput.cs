@@ -5,9 +5,17 @@ using UnityEngine.EventSystems;
 
 namespace DataSakura.AA.Runtime.Battle.Joystick
 {
-    public sealed class JoystickInput : BaseJoystick
+    public interface IInput
     {
-        public bool IsActive => IsJoystickActiveNow && enabled;
+        Vector2 Direction { get; }
+        bool IsPressed { get; }
+        IObservable<Vector2> OnDragEvent { get; }
+        IObservable<Unit> OnPointerDownEvent { get; }
+        IObservable<Unit> OnPointerUpEvent { get; }
+    }
+
+    public sealed class JoystickInput : BaseJoystick, IInput
+    {
         public bool IsPressed { get; private set; }
         public IObservable<Vector2> OnDragEvent => _onDragSbj ??= new Subject<Vector2>();
         public IObservable<Unit> OnPointerDownEvent => _onPointerDownSbj ??= new Subject<Unit>();
@@ -26,9 +34,11 @@ namespace DataSakura.AA.Runtime.Battle.Joystick
 
         public override void OnPointerUp(PointerEventData eventData)
         {
-            ReleaseJoystick(eventData);
-
+            base.OnPointerUp(eventData);
             _onPointerUpSbj?.OnNext(Unit.Default);
+            
+            background.anchoredPosition = _fixedPosition;
+            IsPressed = false;
         }
 
         public override void OnDrag(PointerEventData eventData)
@@ -45,27 +55,6 @@ namespace DataSakura.AA.Runtime.Battle.Joystick
             base.OnPointerDown(eventData);
             _onPointerDownSbj?.OnNext(Unit.Default);
             IsPressed = true;
-        }
-
-        // TODO: remove unused methods
-        public void ForcePointerUpWithoutEvents() => ReleaseJoystick(null);
-
-        public void TurnOff()
-        {
-            ForcePointerUpWithoutEvents();
-            enabled = false;
-        }
-
-        public void TurnOn()
-        {
-            enabled = true;
-        }
-
-        private void ReleaseJoystick(PointerEventData eventData)
-        {
-            base.OnPointerUp(eventData);
-            background.anchoredPosition = _fixedPosition;
-            IsPressed = false;
         }
     }
 }

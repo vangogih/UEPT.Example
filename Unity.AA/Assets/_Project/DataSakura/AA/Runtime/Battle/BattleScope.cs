@@ -10,10 +10,14 @@ namespace DataSakura.AA.Runtime.Battle
     {
         [SerializeField] private BattleCanvasProvider _battleCanvasProvider;
         [SerializeField] private JoystickInput _joystick;
+        [SerializeField] private BattleDebug _debug;
         protected override void Configure(IContainerBuilder builder)
         {
-            builder.RegisterComponent(_battleCanvasProvider);
-            builder.RegisterComponent(_joystick);
+            builder.RegisterComponent(_battleCanvasProvider).AsSelf();
+            builder.RegisterComponent(_joystick).AsSelf();
+            builder.RegisterComponent(_debug).AsSelf();
+
+            builder.Register<PlaneFactory>(Lifetime.Singleton);
             
             builder.RegisterEntryPoint<BattleFlow>();
         }

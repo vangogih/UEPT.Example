@@ -1,0 +1,26 @@
+{
+  "Battle": {
+    "PlaneConfig": {
+      "Responsiveness": 0.7,
+      "WaterSpeedModificator": 0.5,
+      "Bullet": {
+        "Speed": 5.0,
+        "LifeTime": 5.0
+      }
+    },
+    "BotPlaneConfig": {
+      "Speed": 4.0,
+      "ShootInterval": 3.0,
+      "WaterSpeedModificator": 0.5,
+      "DistanceToShoot": 10.0,
+      "Bullet": {
+        "Speed": 5.0,
+        "LifeTime": 5.0
+      }
+    },
+    "JoystickConfig": {
+      "HandleOffsetActivation": 0.05,
+      "JoystickJitter": 0.1
+    }
+  }
+}

@@ -4,7 +4,9 @@
     "references": [
         "VContainer",
         "UniTask",
-        "UniRx"
+        "UniTask.Addressables",
+        "UniRx",
+        "Unity.Addressables"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
