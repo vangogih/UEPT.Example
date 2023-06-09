@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static HeneGames.Airplane.PlaneView;
+using static DataSakura.AA.Runtime.Battle.Airplane.PlaneView;
 
-namespace HeneGames.Airplane
+namespace DataSakura.AA.Runtime.Battle.Airplane
 {
     public class LandingArea : MonoBehaviour
     {

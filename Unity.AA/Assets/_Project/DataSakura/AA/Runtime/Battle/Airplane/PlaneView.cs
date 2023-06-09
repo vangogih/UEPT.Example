@@ -1,9 +1,9 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using DataSakura.AA.Runtime;
+﻿using System.Collections.Generic;
 using DataSakura.AA.Runtime.Battle.Joystick;
+using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace HeneGames.Airplane
+namespace DataSakura.AA.Runtime.Battle.Airplane
 {
     [RequireComponent(typeof(Rigidbody))]
     public class PlaneView : MonoBehaviour
@@ -18,6 +18,9 @@ namespace HeneGames.Airplane
         private List<SimpleAirPlaneCollider> _airPlaneColliders = new List<SimpleAirPlaneCollider>();
 
         public AirplaneState airplaneState;
+
+        [Header("Refs")] public Camera planeCamera;
+        public Transform firePivot;
 
         [Header("Wing trail effects")]
         [Range(0.01f, 1f)]
@@ -121,6 +124,8 @@ namespace HeneGames.Airplane
 
         private PlaneConfig _planeConfig;
         private JoystickInput _joystickInput;
+        private bool _isPlayer;
+        public bool IsPlayer => _isPlayer;
 
         private void Start()
         {
@@ -152,10 +157,15 @@ namespace HeneGames.Airplane
             // inputTurbo = Input.GetKey(KeyCode.LeftShift);
         }
 
-        public void Initialize(PlaneConfig planeConfig, JoystickInput joystick)
+        public void Initialize(PlaneConfig planeConfig, JoystickInput joystick, bool isPlayer)
         {
+            _isPlayer = isPlayer;
             _planeConfig = planeConfig;
             _joystickInput = joystick;
+
+            gameObject.layer = isPlayer
+                ? LayerMask.NameToLayer(RuntimeConstants.PhysicLayers.PlayerBody)
+                : LayerMask.NameToLayer(RuntimeConstants.PhysicLayers.EnemyBody);
         }
 
         private void Update()
@@ -430,9 +440,10 @@ namespace HeneGames.Airplane
             //If there are colliders put components in them
             for (int i = 0; i < colliders.Length; i++) {
                 //Change collider to trigger
-                colliders[i].isTrigger = true;
+                Collider _collider = colliders[i];
+                _collider.isTrigger = true;
 
-                GameObject currentObject = colliders[i].gameObject;
+                GameObject currentObject = _collider.gameObject;
 
                 //Add airplane collider to it and put it on the list
                 SimpleAirPlaneCollider airplaneCollider = currentObject.AddComponent<SimpleAirPlaneCollider>();
@@ -452,7 +463,7 @@ namespace HeneGames.Airplane
         private void RotatePropellers(GameObject[] rotateThese, float speed)
         {
             for (int i = 0; i < rotateThese.Length; i++) {
-                rotateThese[i].transform.Rotate(Vector3.forward * -speed * Time.deltaTime);
+                rotateThese[i].transform.Rotate(Vector3.forward * (-speed * Time.deltaTime));
             }
         }
 

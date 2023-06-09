@@ -28,11 +28,13 @@ namespace DataSakura.AA.Runtime.Battle.Joystick
 
         protected virtual void Awake()
         {
+#if UNITY_EDITOR
             if (_joystickConfig == null) {
                 var configContainer = new ConfigContainer();
                 configContainer.Load().Forget();
                 _joystickConfig = configContainer.Battle.JoystickConfig;
             }
+#endif
             _baseRect = (RectTransform)transform;
 
             var center = new Vector2(0.5f, 0.5f);

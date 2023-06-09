@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace HeneGames.Airplane
+namespace DataSakura.AA.Runtime.Battle.Airplane
 {
     public class Runway : MonoBehaviour
     {

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DataSakura.AA.Runtime.Battle.Airplane;
 using UnityEngine;
 using TMPro;
 using HeneGames.Airplane;

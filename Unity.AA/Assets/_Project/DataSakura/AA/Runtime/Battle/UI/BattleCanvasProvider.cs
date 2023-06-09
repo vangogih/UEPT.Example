@@ -1,6 +1,5 @@
 using System;
 using DataSakura.AA.Runtime.Utilities;
-using Silverfox.Runtime.Utilities;
 using UniRx;
 using UnityEngine;
 using VContainer;
@@ -11,6 +10,7 @@ namespace Silverfox.Runtime.UI
     public sealed class BattleCanvasProvider : MonoBehaviour
     {
         public Canvas Canvas;
+        public RectTransform CanvasRect => (RectTransform)Canvas.transform;
         public RectTransform SafeContainer;
         
         private IDisposable _disposable;

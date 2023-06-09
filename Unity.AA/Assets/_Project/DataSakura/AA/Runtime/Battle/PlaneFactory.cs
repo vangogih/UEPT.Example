@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using DataSakura.AA.Runtime.Battle.Airplane;
 using DataSakura.AA.Runtime.Battle.Joystick;
 using DataSakura.AA.Runtime.Utilities;
-using HeneGames.Airplane;
 using UnityEngine;
 using Resources = UnityEngine.Resources;
 
@@ -37,7 +37,7 @@ namespace DataSakura.AA.Runtime.Battle
                 return _playerPlane;
 
             _playerPlane = Object.Instantiate(_prefabs[planeName]);
-            _playerPlane.Initialize(_configs.Battle.PlaneConfig, _joystick);
+            _playerPlane.Initialize(_configs.Battle.PlaneConfig, _joystick, true);
             return _playerPlane;
         }
     }

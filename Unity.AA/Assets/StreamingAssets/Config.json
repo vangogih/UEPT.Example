@@ -1,10 +1,10 @@
 {
   "Battle": {
     "PlaneConfig": {
-      "Responsiveness": 0.7,
+      "Responsiveness": 0.5,
       "WaterSpeedModificator": 0.5,
       "Bullet": {
-        "Speed": 5.0,
+        "Speed": 500.0,
         "LifeTime": 5.0
       }
     },
@@ -14,7 +14,7 @@
       "WaterSpeedModificator": 0.5,
       "DistanceToShoot": 10.0,
       "Bullet": {
-        "Speed": 5.0,
+        "Speed": 500.0,
         "LifeTime": 5.0
       }
     },

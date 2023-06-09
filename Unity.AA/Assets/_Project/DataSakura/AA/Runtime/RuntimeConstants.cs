@@ -4,6 +4,14 @@ namespace DataSakura.AA.Runtime
 {
     public static class RuntimeConstants
     {
+        public static class PhysicLayers
+        {
+            public const string PlayerBody = "player_body";
+            public const string PlayerBullet = "player_bullet";
+            public const string EnemyBody = "enemy_body";
+            public const string EnemyBullet = "enemy_bullet";
+        }
+
         public static class Planes
         {
             public const string Corncob = "corncob";

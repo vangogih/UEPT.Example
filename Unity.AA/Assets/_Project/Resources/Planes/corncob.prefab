@@ -208,6 +208,7 @@ Transform:
   m_Children:
   - {fileID: 3713582151656655280}
   - {fileID: 5181322542299606902}
+  - {fileID: 7364297264133405308}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -224,6 +225,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   airplaneState: 0
+  planeCamera: {fileID: 2240807780857026846}
+  firePivot: {fileID: 7364297264133405308}
   trailThickness: 0.045
   wingTrailEffects:
   - {fileID: 4799754581922081077}
@@ -750,7 +753,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4742853880209487611}
-  m_LocalRotation: {x: 0.057226937, y: -0.00000007258094, z: 0.0000000041604027, w: 0.99836123}
+  m_LocalRotation: {x: 0.057226937, y: -0.00000007257128, z: 0.0000000041598494, w: 0.99836123}
   m_LocalPosition: {x: 0.0000038146973, y: 4.24, z: -15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -936,7 +939,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5016611657878004962}
-  m_LocalRotation: {x: -0.018189505, y: 0.000000029194894, z: -0.0000000065435684, w: 0.9998346}
+  m_LocalRotation: {x: -0.018189505, y: 0.000000029262647, z: -0.000000006552612, w: 0.9998346}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1160,7 +1163,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6377005345752553470}
-  m_LocalRotation: {x: -0.000000014901161, y: 0.00000002071941, z: -0.0000000058036314, w: 1}
+  m_LocalRotation: {x: -0.000000014901161, y: 0.000000021094047, z: -0.0000000058605973, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1342,6 +1345,37 @@ MonoBehaviour:
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
+--- !u!1 &7684263155443231505
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7364297264133405308}
+  m_Layer: 0
+  m_Name: fire_pivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7364297264133405308
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7684263155443231505}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7313964542495679156}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8238728514518617912
 GameObject:
   m_ObjectHideFlags: 0
@@ -1674,7 +1708,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8964596673506781683}
-  m_LocalRotation: {x: -0.03632497, y: 0.000000015378948, z: -0.0000000044099675, w: 0.9993401}
+  m_LocalRotation: {x: -0.03632497, y: 0.000000015424146, z: -0.000000004415169, w: 0.9993401}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

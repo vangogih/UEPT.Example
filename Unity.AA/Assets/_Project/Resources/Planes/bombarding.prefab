@@ -169,7 +169,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1550835879777865469}
-  m_LocalRotation: {x: -0.000000011175871, y: -0.000000056315216, z: 0.000000002302227, w: 1}
+  m_LocalRotation: {x: -0.000000011175871, y: -0.000000056357592, z: 0.0000000023047293, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -357,6 +357,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   airplaneState: 0
+  planeCamera: {fileID: 5959956829434921286}
   trailThickness: 0.221
   wingTrailEffects:
   - {fileID: 986118286206021241}
@@ -745,7 +746,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5168559383944399216}
-  m_LocalRotation: {x: -0.036324963, y: -0.000000065756225, z: 4.6788556e-10, w: 0.9993401}
+  m_LocalRotation: {x: -0.036324963, y: -0.00000002529113, z: -4.4881698e-10, w: 0.9993401}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -824,7 +825,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5636328489090370238}
-  m_LocalRotation: {x: -0.018189494, y: -0.00000006434263, z: 0.000000001603814, w: 0.9998346}
+  m_LocalRotation: {x: -0.018189494, y: -0.000000064335744, z: 0.0000000016035331, w: 0.9998346}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1232,7 +1233,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7534356322582521038}
-  m_LocalRotation: {x: 0.0113008795, y: -0.00000003176132, z: 3.5895384e-10, w: 0.99993616}
+  m_LocalRotation: {x: 0.0113008795, y: -0.00000003176174, z: 3.5895853e-10, w: 0.99993616}
   m_LocalPosition: {x: -0.00000010695175, y: 4.24, z: -40}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

@@ -176,6 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   airplaneState: 0
+  planeCamera: {fileID: 6470102469199444142}
   trailThickness: 0.045
   wingTrailEffects:
   - {fileID: 2682199760203927900}
