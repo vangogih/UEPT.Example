@@ -36,13 +36,10 @@ namespace DataSakura.AA.Runtime
     }
 
     [Serializable]
-    public class BotPlaneConfig
+    public class BotPlaneConfig : PlaneConfig
     {
-        public float Speed;
         public float ShootInterval;
-        public float WaterSpeedModificator;
         public float DistanceToShoot;
-        public BulletConfig Bullet;
     }
 
     [Serializable]

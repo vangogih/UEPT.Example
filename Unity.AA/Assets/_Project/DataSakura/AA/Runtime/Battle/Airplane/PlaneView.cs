@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DataSakura.AA.Runtime.Battle.Joystick;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -111,7 +113,7 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
         private float _currentEngineLightIntensity;
         private float _currentEngineSoundPitch;
 
-        private bool _planeIsDead;
+        private readonly BoolReactiveProperty _planeIsDead = new(false);
 
         private Rigidbody _rb;
         private Runway _currentRunway;
@@ -123,9 +125,10 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
         private bool _inputYawRight;
 
         private PlaneConfig _planeConfig;
-        private JoystickInput _joystickInput;
+        private IInput _input;
         private bool _isPlayer;
         public bool IsPlayer => _isPlayer;
+        public IReadOnlyReactiveProperty<bool> OnDead => _planeIsDead;
 
         private void Start()
         {
@@ -145,7 +148,7 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
         private void HandleInputs()
         {
             //Rotate inputs
-            var d = _joystickInput.Direction;
+            var d = _input.Direction;
             _inputH = d.x * _planeConfig.Responsiveness; //Input.GetAxis("Horizontal");
             _inputV = d.y * _planeConfig.Responsiveness; //Input.GetAxis("Vertical");
 
@@ -157,11 +160,14 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
             // inputTurbo = Input.GetKey(KeyCode.LeftShift);
         }
 
-        public void Initialize(PlaneConfig planeConfig, JoystickInput joystick, bool isPlayer)
+        public void Initialize(PlaneConfig planeConfig, IInput joystick, bool isPlayer)
         {
             _isPlayer = isPlayer;
             _planeConfig = planeConfig;
-            _joystickInput = joystick;
+            _input = joystick;
+
+            if (!isPlayer)
+                planeCamera.gameObject.SetActive(false);
 
             gameObject.layer = isPlayer
                 ? LayerMask.NameToLayer(RuntimeConstants.PhysicLayers.PlayerBody)
@@ -195,7 +201,7 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
             UpdatePropellersAndLights();
 
             //Airplane move only if not dead
-            if (!_planeIsDead) {
+            if (!_planeIsDead.Value) {
                 Movement();
                 SidewaysForceCalculation();
             }
@@ -204,7 +210,7 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
             }
 
             //Crash
-            if (!_planeIsDead && HitSometing()) {
+            if (!_planeIsDead.Value && HitSometing()) {
                 Crash();
             }
         }
@@ -382,7 +388,7 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
             if (airplaneState == AirplaneState.Flying) {
                 engineSoundSource.pitch = Mathf.Lerp(engineSoundSource.pitch, _currentEngineSoundPitch, 10f * Time.deltaTime);
 
-                if (_planeIsDead) {
+                if (_planeIsDead.Value) {
                     engineSoundSource.volume = Mathf.Lerp(engineSoundSource.volume, 0f, 10f * Time.deltaTime);
                 }
                 else {
@@ -405,7 +411,7 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
 
         private void UpdatePropellersAndLights()
         {
-            if (!_planeIsDead) {
+            if (!_planeIsDead.Value) {
                 //Rotate propellers if any
                 if (propellers.Length > 0) {
                     RotatePropellers(propellers, _currentSpeed * propelSpeedMultiplier);
@@ -470,7 +476,7 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
         private void ControlEngineLights(Light[] lights, float intensity)
         {
             for (int i = 0; i < lights.Length; i++) {
-                if (!_planeIsDead) {
+                if (!_planeIsDead.Value) {
                     lights[i].intensity = Mathf.Lerp(lights[i].intensity, intensity, 10f * Time.deltaTime);
                 }
                 else {
@@ -515,7 +521,7 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
             }
 
             //Kill player
-            _planeIsDead = true;
+            _planeIsDead.Value = true;
         }
 
         #endregion
@@ -531,11 +537,6 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
             float percentToMax = _currentSpeed / turboSpeed;
 
             return percentToMax;
-        }
-
-        public bool PlaneIsDead()
-        {
-            return _planeIsDead;
         }
 
         public bool UsingTurbo()

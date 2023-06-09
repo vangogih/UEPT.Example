@@ -1,5 +1,5 @@
 ﻿using System;
-using DataSakura.AA.Runtime.Battle.UI;
+using DataSakura.AA.Runtime.Battle.Joystick;
 using DataSakura.AA.Runtime.Utilities;
 using DataSakura.AA.Runtime.Utilities.Logging;
 using VContainer.Unity;
@@ -10,27 +10,31 @@ namespace DataSakura.AA.Runtime.Battle
     {
         private readonly LoadingService _loadingService;
         private readonly PlaneFactory _planeFactory;
-        private readonly BattleHudController _battleHudController;
         private readonly ShootingService _shootingService;
+        private readonly BattleController _battleController;
+        private readonly BotInput _botInput;
 
         public BattleFlow(LoadingService loadingService,
             PlaneFactory planeFactory,
-            BattleHudController battleHudController,
-            ShootingService shootingService)
+            ShootingService shootingService,
+            BattleController battleController,
+            BotInput botInput)
         {
             _loadingService = loadingService;
             _planeFactory = planeFactory;
-            _battleHudController = battleHudController;
             _shootingService = shootingService;
+            _battleController = battleController;
+            _botInput = botInput;
         }
 
         public async void Start()
         {
             await _loadingService.BeginLoading(_planeFactory);
             await _loadingService.BeginLoading(_shootingService);
-
-            var playerView = _planeFactory.SpawnOrGetPlayerPlane(RuntimeConstants.Planes.Corncob);
-            _battleHudController.Initialize(playerView);
+            await _loadingService.BeginLoading(_battleController, new LevelConfiguration(0));
+            await _loadingService.BeginLoading(_botInput, _battleController.Bots);
+            
+            _battleController.StartBattle();
             Log.Battle.D("BattleFlow.Start()");
         }
 

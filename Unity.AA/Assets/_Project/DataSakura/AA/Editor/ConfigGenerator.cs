@@ -17,23 +17,22 @@ namespace _Project.DataSakura.AA.Editor
                 {
                     PlaneConfig = new PlaneConfig
                     {
-                        Responsiveness = 0.1f,
+                        Responsiveness = 0.5f,
                         WaterSpeedModificator = .5f,
                         Bullet = new BulletConfig
                         {
-                            Speed = 5,
+                            Speed = 500,
                             LifeTime = 5
                         }
                     },
                     BotPlaneConfig = new BotPlaneConfig
                     {
-                        Speed = 4,
                         ShootInterval = 3,
                         DistanceToShoot = 10,
                         WaterSpeedModificator = .5f,
                         Bullet = new BulletConfig
                         {
-                            Speed = 5,
+                            Speed = 500,
                             LifeTime = 5
                         }
                     },

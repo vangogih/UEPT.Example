@@ -5,16 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace DataSakura.AA.Runtime.Battle.Joystick
 {
-    public interface IInput
-    {
-        Vector2 Direction { get; }
-        bool IsPressed { get; }
-        IObservable<Vector2> OnDragEvent { get; }
-        IObservable<Unit> OnPointerDownEvent { get; }
-        IObservable<Unit> OnPointerUpEvent { get; }
-    }
-
-    public sealed class JoystickInput : BaseJoystick, IInput
+    public sealed class JoystickInput : BaseJoystick, IJoystickInput
     {
         public bool IsPressed { get; private set; }
         public IObservable<Vector2> OnDragEvent => _onDragSbj ??= new Subject<Vector2>();

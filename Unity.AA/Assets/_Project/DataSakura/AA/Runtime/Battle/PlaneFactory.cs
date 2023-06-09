@@ -12,13 +12,15 @@ namespace DataSakura.AA.Runtime.Battle
     {
         private readonly ConfigContainer _configs;
         private readonly JoystickInput _joystick;
+        private readonly BotInput _botInput;
         private Dictionary<string, PlaneView> _prefabs;
         private PlaneView _playerPlane;
 
-        public PlaneFactory(ConfigContainer configs, JoystickInput joystick)
+        public PlaneFactory(ConfigContainer configs, JoystickInput joystick, BotInput botInput)
         {
             _configs = configs;
             _joystick = joystick;
+            _botInput = botInput;
         }
 
         UniTask ILoadUnit.Load()
@@ -31,14 +33,28 @@ namespace DataSakura.AA.Runtime.Battle
             return UniTask.CompletedTask;
         }
 
-        public PlaneView SpawnOrGetPlayerPlane(string planeName)
+        public PlaneView Create(SpawnParams @params)
         {
-            if (_playerPlane != null)
-                return _playerPlane;
-
-            _playerPlane = Object.Instantiate(_prefabs[planeName]);
-            _playerPlane.Initialize(_configs.Battle.PlaneConfig, _joystick, true);
-            return _playerPlane;
+            PlaneView plane = Object.Instantiate(_prefabs[@params.PlaneName]);
+            IInput input = @params.IsPlayer ? _joystick : _botInput;
+            var cfg = @params.IsPlayer ? _configs.Battle.PlaneConfig : _configs.Battle.BotPlaneConfig;
+            plane.Initialize(cfg, input, @params.IsPlayer);
+            return plane;
         }
+    }
+
+    public readonly ref struct SpawnParams
+    {
+        public readonly string PlaneName;
+        public readonly bool IsPlayer;
+
+        private SpawnParams(string planeName, bool isPlayer)
+        {
+            PlaneName = planeName;
+            IsPlayer = isPlayer;
+        }
+
+        public static SpawnParams Player(string planeName) => new(planeName, true);
+        public static SpawnParams Bot(string planeName) => new(planeName, false);
     }
 }

@@ -9,10 +9,10 @@
       }
     },
     "BotPlaneConfig": {
-      "Speed": 4.0,
       "ShootInterval": 3.0,
-      "WaterSpeedModificator": 0.5,
       "DistanceToShoot": 10.0,
+      "Responsiveness": 0.0,
+      "WaterSpeedModificator": 0.5,
       "Bullet": {
         "Speed": 500.0,
         "LifeTime": 5.0
@@ -20,7 +20,7 @@
     },
     "JoystickConfig": {
       "HandleOffsetActivation": 0.05,
-      "JoystickJitter": 0.1
+      "JoystickJitter": 0.5
     }
   }
 }
