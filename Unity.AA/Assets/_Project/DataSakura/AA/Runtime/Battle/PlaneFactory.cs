@@ -12,13 +12,15 @@ namespace DataSakura.AA.Runtime.Battle
     {
         private readonly ConfigContainer _configs;
         private readonly JoystickInput _joystick;
+        private readonly ShootingService _shootingService;
         private Dictionary<string, PlaneView> _prefabs;
         private PlaneView _playerPlane;
 
-        public PlaneFactory(ConfigContainer configs, JoystickInput joystick)
+        public PlaneFactory(ConfigContainer configs, JoystickInput joystick, ShootingService shootingService)
         {
             _configs = configs;
             _joystick = joystick;
+            _shootingService = shootingService;
         }
 
         UniTask ILoadUnit.Load()
@@ -41,7 +43,10 @@ namespace DataSakura.AA.Runtime.Battle
         public PlaneView CreateBot(string planeName, PlaneView playerPlane)
         {
             PlaneView bot = Object.Instantiate(_prefabs[planeName]);
-            bot.Initialize(_configs.Battle.BotPlaneConfig, new BotInput(_configs.Battle.BotPlaneConfig, bot, playerPlane), false);
+
+            bot.Initialize(_configs.Battle.BotPlaneConfig,
+                new BotBrain(_shootingService, _configs.Battle.BotPlaneConfig, bot, playerPlane),
+                false);
             return bot;
         }
     }

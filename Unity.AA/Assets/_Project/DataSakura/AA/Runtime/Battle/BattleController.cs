@@ -10,50 +10,45 @@ namespace DataSakura.AA.Runtime.Battle
     public class BattleController : ILoadUnit<LevelConfiguration>
     {
         public IReadOnlyList<PlaneView> Bots => _bots;
-        public PlaneView Player => _player;
+        public PlaneView Player { get; private set; }
 
         private readonly PlaneFactory _planeFactory;
         private readonly BattleHudController _battleHudController;
-        private readonly ShootingService _shootingService;
-        private PlaneView _player;
         private List<PlaneView> _bots;
         private readonly CompositeDisposable _disposables = new();
 
-        public BattleController(PlaneFactory planeFactory,
-            BattleHudController battleHudController,
-            ShootingService shootingService)
+        public BattleController(PlaneFactory planeFactory, BattleHudController battleHudController)
         {
             _planeFactory = planeFactory;
             _battleHudController = battleHudController;
-            _shootingService = shootingService;
         }
 
         public UniTask Load(LevelConfiguration levelConfiguration)
         {
             // spawn player and bots
             {
-                _player = _planeFactory.CreatePlayer(RuntimeConstants.Planes.Corncob);
-                _player.OnDead.RxSubscribe(isDead => OnPlayerDead(isDead, _player)).AddTo(_disposables);
-                _player.gameObject.SetActive(false);
+                Player = _planeFactory.CreatePlayer(RuntimeConstants.Planes.Corncob);
+                Player.OnDead.RxSubscribe(isDead => OnPlayerDead(isDead, Player)).AddTo(_disposables);
+                Player.gameObject.SetActive(false);
 
                 _bots = new List<PlaneView>(levelConfiguration.EnemiesCount);
 
                 for (var i = 0; i < levelConfiguration.EnemiesCount; i++) {
-                    PlaneView bot = _planeFactory.CreateBot(RuntimeConstants.Planes.Corncob, _player);
+                    PlaneView bot = _planeFactory.CreateBot(RuntimeConstants.Planes.Corncob, Player);
                     bot.OnDead.RxSubscribe(isDead => OnBotDie(isDead, bot)).AddTo(_disposables);
                     bot.gameObject.SetActive(false);
                     _bots.Add(bot);
                 }
             }
 
-            _battleHudController.Initialize(_player);
+            _battleHudController.Initialize(Player);
 
             return UniTask.CompletedTask;
         }
 
         public void StartBattle()
         {
-            _player.gameObject.SetActive(true);
+            Player.gameObject.SetActive(true);
 
             for (var i = 0; i < _bots.Count; i++)
                 _bots[i].gameObject.SetActive(true);

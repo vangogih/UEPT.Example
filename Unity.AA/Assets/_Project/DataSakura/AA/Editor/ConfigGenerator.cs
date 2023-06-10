@@ -18,7 +18,6 @@ namespace _Project.DataSakura.AA.Editor
                     PlaneConfig = new PlaneConfig
                     {
                         Responsiveness = 0.5f,
-                        WaterSpeedModificator = .5f,
                         Bullet = new BulletConfig
                         {
                             Speed = 500,
@@ -29,7 +28,6 @@ namespace _Project.DataSakura.AA.Editor
                     {
                         ShootInterval = 3,
                         DistanceToShoot = 10,
-                        WaterSpeedModificator = .5f,
                         Bullet = new BulletConfig
                         {
                             Speed = 500,
@@ -40,6 +38,11 @@ namespace _Project.DataSakura.AA.Editor
                     {
                         JoystickJitter = .5f,
                         HandleOffsetActivation = .05f
+                    },
+                    WaterConfig = new WaterConfig
+                    {
+                        WaterLevel = 0,
+                        WaterSpeedModificator = .5f
                     }
                 }
             };

@@ -23,7 +23,8 @@ namespace DataSakura.AA.Runtime.Battle
             builder.Register<ShootingService>(Lifetime.Singleton);
             builder.Register<PlaneFactory>(Lifetime.Singleton);
             builder.Register<BattleController>(Lifetime.Singleton);
-            
+
+            builder.RegisterEntryPoint<WaterBuffService>().AsSelf();
             builder.RegisterEntryPoint<BattleFlow>();
         }
     }

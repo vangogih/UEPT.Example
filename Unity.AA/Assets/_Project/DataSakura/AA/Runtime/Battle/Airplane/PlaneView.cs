@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DataSakura.AA.Runtime.Battle.Joystick;
+using Sirenix.OdinInspector;
 using UniRx;
 using UnityEngine;
 
@@ -103,6 +105,9 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
         [SerializeField]
         private float takeoffLenght = 30f;
 
+        [Header("Debug")]
+        [ReadOnly]
+        [ShowInInspector]
         private float _maxSpeed = 0.6f;
         private float _currentYawSpeed;
         private float _currentPitchSpeed;
@@ -159,11 +164,11 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
             // inputTurbo = Input.GetKey(KeyCode.LeftShift);
         }
 
-        public void Initialize(PlaneConfig planeConfig, IInput joystick, bool isPlayer)
+        public void Initialize(PlaneConfig planeConfig, IInput input, bool isPlayer)
         {
             _isPlayer = isPlayer;
             _planeConfig = planeConfig;
-            _input = joystick;
+            _input = input;
 
             if (!isPlayer)
                 planeCamera.gameObject.SetActive(false);
@@ -521,35 +526,22 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
 
             //Kill player
             _planeIsDead.Value = true;
+            
+            Destroy(gameObject, 5f);
         }
 
         #endregion
 
         #region Variables
 
-        /// <summary>
-        /// Returns a percentage of how fast the current speed is from the maximum speed between 0 and 1
-        /// </summary>
-        /// <returns></returns>
-        public float PercentToMaxSpeed()
+        public void BuffMaxSpeed(float clamped01Percent)
         {
-            float percentToMax = _currentSpeed / turboSpeed;
-
-            return percentToMax;
+            _maxSpeed *= clamped01Percent;
         }
 
-        public bool UsingTurbo()
+        public void ResetMaxSpeed()
         {
-            if (_maxSpeed == turboSpeed) {
-                return true;
-            }
-
-            return false;
-        }
-
-        public float CurrentSpeed()
-        {
-            return _currentSpeed;
+            _maxSpeed = defaultSpeed;
         }
 
         #endregion

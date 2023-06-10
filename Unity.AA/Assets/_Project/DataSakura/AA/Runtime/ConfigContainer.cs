@@ -25,13 +25,13 @@ namespace DataSakura.AA.Runtime
         public PlaneConfig PlaneConfig;
         public BotPlaneConfig BotPlaneConfig;
         public JoystickConfig JoystickConfig;
+        public WaterConfig WaterConfig;
     }
 
     [Serializable]
     public class PlaneConfig
     {
         public float Responsiveness;
-        public float WaterSpeedModificator;
         public BulletConfig Bullet;
     }
 
@@ -54,5 +54,12 @@ namespace DataSakura.AA.Runtime
     {
         public float HandleOffsetActivation;
         public float JoystickJitter;
+    }
+
+    [Serializable]
+    public sealed class WaterConfig
+    {
+        public float WaterLevel;
+        public float WaterSpeedModificator;
     }
 }

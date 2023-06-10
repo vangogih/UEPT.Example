@@ -3,23 +3,28 @@ using UnityEngine;
 
 namespace DataSakura.AA.Runtime.Battle.Joystick
 {
-    public sealed class BotInput : IInput
+    public sealed class BotBrain : IInput
     {
         public Vector2 Direction { get; private set; }
         public bool IsPressed { get; } = false;
 
+        private readonly ShootingService _shootingService;
         private readonly BotPlaneConfig _botConfig;
         private readonly IFollowable _self;
         private readonly IFollowable _target;
 
-        private readonly float _sqrDistanceToShoot;
+        private float _sqrDistanceToShoot;
 
-        public BotInput(BotPlaneConfig botConfig, IFollowable self, IFollowable target)
+        public BotBrain(ShootingService shootingService,
+            BotPlaneConfig botConfig,
+            IFollowable self,
+            IFollowable target)
         {
+            _shootingService = shootingService;
             _botConfig = botConfig;
             _self = self;
             _target = target;
-            
+
             _sqrDistanceToShoot = botConfig.DistanceToShoot * botConfig.DistanceToShoot;
         }
 

@@ -2,7 +2,6 @@
   "Battle": {
     "PlaneConfig": {
       "Responsiveness": 0.5,
-      "WaterSpeedModificator": 0.5,
       "Bullet": {
         "Speed": 500.0,
         "LifeTime": 5.0
@@ -12,7 +11,6 @@
       "ShootInterval": 3.0,
       "DistanceToShoot": 10.0,
       "Responsiveness": 0.0,
-      "WaterSpeedModificator": 0.5,
       "Bullet": {
         "Speed": 500.0,
         "LifeTime": 5.0
@@ -21,6 +19,10 @@
     "JoystickConfig": {
       "HandleOffsetActivation": 0.05,
       "JoystickJitter": 0.5
+    },
+    "WaterConfig": {
+      "WaterLevel": 0.0,
+      "WaterSpeedModificator": 0.5
     }
   }
 }
