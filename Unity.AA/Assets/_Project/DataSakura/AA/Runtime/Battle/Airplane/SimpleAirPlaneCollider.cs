@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -13,11 +12,6 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
         public PlaneView view;
 
         private void OnTriggerEnter(Collider other)
-        {
-            collideSometing = true;
-        }
-
-        private void OnCollisionEnter(Collision collision)
         {
             collideSometing = true;
         }
