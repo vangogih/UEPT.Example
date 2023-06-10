@@ -123,9 +123,8 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
 
         private float _inputH;
         private float _inputV;
+        private float _inputYaw;
         private bool _inputTurbo;
-        private bool _inputYawLeft;
-        private bool _inputYawRight;
 
         private PlaneConfig _planeConfig;
         private IInput _input;
@@ -133,29 +132,16 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
         public bool IsPlayer => _isPlayer;
         public IReadOnlyReactiveProperty<bool> OnDead => _planeIsDead;
         Transform IFollowable.Transform => transform;
-        [SerializeField] private Transform _test;
+        public float RollAngle { get; private set; }
+        public float PitchAngle { get; private set; }
+        public float ForwardSpeed { get; private set; }
 
         private void HandleInputs()
         {
-            //Rotate inputs
-            if (_test != null) {
-                Vector3 direction = _test.position - transform.position;
-                var dn = direction.normalized;
-                _inputH = dn.x;
-                _inputV = dn.y;
-                return;
-            }
-
             var d = _input.Direction;
             _inputH = d.x * _planeConfig.Responsiveness; //Input.GetAxis("Horizontal");
             _inputV = d.y * _planeConfig.Responsiveness; //Input.GetAxis("Vertical");
-
-            //Yaw axis inputs
-            // inputYawLeft = Input.GetKey(KeyCode.Q);
-            // inputYawRight = Input.GetKey(KeyCode.E);
-            //
-            // //Turbo
-            // inputTurbo = Input.GetKey(KeyCode.LeftShift);
+            _inputYaw = d.z * _planeConfig.Responsiveness; //Input.GetAxis("Yaw");
         }
 
         public void Initialize(PlaneConfig planeConfig, IInput input, bool isPlayer)
@@ -202,6 +188,9 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
                     TakeoffUpdate();
                     break;
             }
+            
+            CalculateRollAndPitchAngles();
+            CalculateForwardSpeed();
         }
 
         #region Flying State
@@ -282,14 +271,9 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
             transform.Rotate(Vector3.right * (_inputV * _currentPitchSpeed * Time.deltaTime));
 
             //Rotate yaw
-            if (_inputYawRight) {
-                transform.Rotate(Vector3.up * (_currentYawSpeed * Time.deltaTime));
-            }
-            else if (_inputYawLeft) {
-                transform.Rotate(-Vector3.up * (_currentYawSpeed * Time.deltaTime));
-            }
+            transform.Rotate(Vector3.up * (_inputYaw *_currentYawSpeed * Time.deltaTime));
 
-            //Accelerate and deacclerate
+                //Accelerate and deacclerate
             if (_currentSpeed < _maxSpeed) {
                 _currentSpeed += accelerating * Time.deltaTime;
             }
@@ -332,6 +316,33 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
                 //Audio
                 _currentEngineSoundPitch = defaultSoundPitch;
             }
+        }
+        
+        private void CalculateRollAndPitchAngles()
+        {
+            // Calculate roll & pitch angles
+            // Calculate the flat forward direction (with no y component).
+            var flatForward = transform.forward;
+            flatForward.y = 0;
+            // If the flat forward vector is non-zero (which would only happen if the plane was pointing exactly straight upwards)
+            if (flatForward.sqrMagnitude > 0)
+            {
+                flatForward.Normalize();
+                // calculate current pitch angle
+                var localFlatForward = transform.InverseTransformDirection(flatForward);
+                PitchAngle = Mathf.Atan2(localFlatForward.y, localFlatForward.z);
+                // calculate current roll angle
+                var flatRight = Vector3.Cross(Vector3.up, flatForward);
+                var localFlatRight = transform.InverseTransformDirection(flatRight);
+                RollAngle = Mathf.Atan2(localFlatRight.y, localFlatRight.x);
+            }
+        }
+
+        private void CalculateForwardSpeed()
+        {
+            // Forward speed is the speed in the planes's forward direction (not the same as its velocity, eg if falling in a stall)
+            var localVelocity = transform.InverseTransformDirection(_rb.velocity);
+            ForwardSpeed = Mathf.Max(0, localVelocity.z);
         }
 
         #endregion

@@ -13,7 +13,7 @@ namespace DataSakura.AA.Runtime.Battle.Joystick
         [SerializeField] private RectTransform handle;
         [SerializeField] private BattleCanvasProvider canvasProvider;
 
-        public Vector2 Direction => new Vector2(_input.x, _input.y);
+        public Vector3 Direction => new Vector2(_input.x, _input.y);
         protected bool IsJoystickActiveNow { get; private set; }
 
         private JoystickConfig _joystickConfig;

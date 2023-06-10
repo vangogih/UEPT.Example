@@ -8,9 +8,16 @@
       }
     },
     "BotPlaneConfig": {
-      "ShootInterval": 1.0,
+      "ShootInterval": 3.0,
       "DistanceToShoot": 100.0,
-      "Responsiveness": 0.5,
+      "RollSensitivity": 0.5,
+      "PitchSensitivity": 0.5,
+      "LateralWanderDistance": 2.0,
+      "LateralWanderSpeed": 0.11,
+      "MaxClimbAngle": 45.0,
+      "MaxRollAngle": 70.0,
+      "SpeedEffect": 0.01,
+      "Responsiveness": 1.0,
       "Bullet": {
         "Speed": 500.0,
         "LifeTime": 5.0

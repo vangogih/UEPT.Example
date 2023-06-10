@@ -21,7 +21,7 @@ public class BotBrainDebug : MonoBehaviour
         Source.Initialize(cfg.Battle.BotPlaneConfig, _bb, true);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         _bb.FixedTick();
     }

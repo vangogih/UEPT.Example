@@ -39,7 +39,21 @@ namespace DataSakura.AA.Runtime
     public class BotPlaneConfig : PlaneConfig
     {
         public float ShootInterval;
-        public float DistanceToShoot;
+        public float DistanceToShoot;            
+        /// <summary> How sensitively the AI applies the roll controls</summary>
+        public float RollSensitivity = .5f;      
+        /// <summary> How sensitively the AI applies the pitch controls</summary>
+        public float PitchSensitivity = .5f;     
+        /// <summary> The amount that the plane can wander by when heading for a target</summary>
+        public float LateralWanderDistance = 2;  
+        /// <summary> The speed at which the plane will wander laterally</summary>
+        public float LateralWanderSpeed = 0.11f; 
+        /// <summary> The maximum angle that the AI will attempt to make plane can climb at</summary>
+        public float MaxClimbAngle = 45;         
+        /// <summary> The maximum angle that the AI will attempt to u</summary>
+        public float MaxRollAngle = 70;          
+        /// <summary> This increases the effect of the controls based on the plane's speed.</summary>
+        public float SpeedEffect = 0.01f;        
     }
 
     [Serializable]

@@ -26,8 +26,9 @@ namespace _Project.DataSakura.AA.Editor
                     },
                     BotPlaneConfig = new BotPlaneConfig
                     {
-                        ShootInterval = 3,
-                        DistanceToShoot = 10,
+                        ShootInterval = 1,
+                        DistanceToShoot = 100,
+                        Responsiveness = 1f,
                         Bullet = new BulletConfig
                         {
                             Speed = 500,

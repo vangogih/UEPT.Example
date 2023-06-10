@@ -6,7 +6,7 @@ namespace DataSakura.AA.Runtime.Battle.Joystick
 {
     public interface IInput
     {
-        Vector2 Direction { get; }
+        Vector3 Direction { get; }
         bool IsPressed { get; }
     }
 
