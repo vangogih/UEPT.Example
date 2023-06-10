@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using DataSakura.AA.Runtime;
-using Unity.Plastic.Newtonsoft.Json;
+using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 
@@ -48,7 +48,8 @@ namespace _Project.DataSakura.AA.Editor
                 }
             };
             var json = JsonConvert.SerializeObject(configContainer, Formatting.Indented);
-            File.WriteAllText(Path.Combine(Application.streamingAssetsPath, RuntimeConstants.Configs.ConfigFileName), json);
+            var path = Path.Combine(Application.dataPath, "_Project", "Resources", RuntimeConstants.Configs.ConfigFileName + ".json");
+            File.WriteAllText(path, json);
         }
     }
 }

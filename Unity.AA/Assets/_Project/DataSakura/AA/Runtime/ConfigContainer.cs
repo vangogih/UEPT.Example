@@ -1,8 +1,7 @@
 ﻿using System;
-using System.IO;
 using Cysharp.Threading.Tasks;
 using DataSakura.AA.Runtime.Utilities;
-using Unity.Plastic.Newtonsoft.Json;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace DataSakura.AA.Runtime
@@ -13,8 +12,8 @@ namespace DataSakura.AA.Runtime
         
         public UniTask Load()
         {
-            string path = Path.Combine(Application.streamingAssetsPath, RuntimeConstants.Configs.ConfigFileName);
-            JsonConvert.PopulateObject(File.ReadAllText(path), this);
+            var asset = AssetService.R.Load<TextAsset>(RuntimeConstants.Configs.ConfigFileName);
+            JsonConvert.PopulateObject(asset.text, this);
             return UniTask.CompletedTask;
         }
     }

@@ -23,7 +23,7 @@ namespace DataSakura.AA.Runtime
 
         public static class Configs
         {
-            public const string ConfigFileName = "Config.json";
+            public const string ConfigFileName = "Config";
         }
 
         public static class Scenes
