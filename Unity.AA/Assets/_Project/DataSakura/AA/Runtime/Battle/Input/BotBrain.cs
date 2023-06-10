@@ -1,4 +1,5 @@
 ﻿using DataSakura.AA.Runtime.Battle.Airplane;
+using UniRx;
 using UnityEngine;
 
 namespace DataSakura.AA.Runtime.Battle.Joystick
@@ -11,7 +12,7 @@ namespace DataSakura.AA.Runtime.Battle.Joystick
         private readonly ShootingService _shootingService;
         private readonly BotPlaneConfig _config;
         private readonly PlaneView _self;
-        private readonly IFollowable _target;
+        private readonly PlaneView _target;
 
         private readonly float _sqrDistanceToShoot;
         private float _lastShootTime;
@@ -20,7 +21,7 @@ namespace DataSakura.AA.Runtime.Battle.Joystick
         public BotBrain(ShootingService shootingService,
             BotPlaneConfig config,
             PlaneView self,
-            IFollowable target)
+            PlaneView target)
         {
             _shootingService = shootingService;
             _config = config;
@@ -29,16 +30,21 @@ namespace DataSakura.AA.Runtime.Battle.Joystick
 
             _sqrDistanceToShoot = config.DistanceToShoot * config.DistanceToShoot;
             _randomPerlin = Random.Range(0f, 100f);
+
+            Observable.EveryFixedUpdate().RxSubscribe(FixedTick);
         }
 
-        public void FixedTick()
+        public void FixedTick(long _)
         {
             if (_target == null)
                 return;
 
+            if (_self.IsDead.Value)
+                return;
+
             SetDirection();
 
-            Vector3 direction = _target.Transform.position - _self.transform.position;
+            Vector3 direction = _target.transform.position - _self.transform.position;
 
             if (direction.sqrMagnitude < _sqrDistanceToShoot && Time.time - _lastShootTime > _config.ShootInterval) {
                 _shootingService.Shoot(_self);
@@ -52,7 +58,7 @@ namespace DataSakura.AA.Runtime.Battle.Joystick
         private void SetDirection()
         {
             // make the plane wander from the path, useful for making the AI seem more human, less robotic.
-            Transform target = _target.Transform;
+            Transform target = _target.transform;
             Transform transform = _self.transform;
 
             Vector3 targetPos = target.position +

@@ -30,7 +30,7 @@ namespace DataSakura.AA.Runtime.Battle
         {
             await _loadingService.BeginLoading(_planeFactory);
             await _loadingService.BeginLoading(_shootingService);
-            await _loadingService.BeginLoading(_battleController, new LevelConfiguration(0));
+            await _loadingService.BeginLoading(_battleController, new LevelConfiguration(1));
             await _loadingService.BeginLoading(_waterBuffService);
             
             _battleController.StartBattle();

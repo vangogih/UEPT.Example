@@ -47,6 +47,7 @@ namespace DataSakura.AA.Runtime.Battle
             bot.Initialize(_configs.Battle.BotPlaneConfig,
                 new BotBrain(_shootingService, _configs.Battle.BotPlaneConfig, bot, playerPlane),
                 false);
+            bot.SetDefaultBotSpeed();
             return bot;
         }
     }

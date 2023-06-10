@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -13,11 +14,12 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
 
         private void OnTriggerEnter(Collider other)
         {
-            //Collide someting bad
-            if(other.gameObject.GetComponent<SimpleAirPlaneCollider>() == null && other.gameObject.GetComponent<LandingArea>() == null)
-            {
-                collideSometing = true;
-            }
+            collideSometing = true;
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            collideSometing = true;
         }
     }
 }

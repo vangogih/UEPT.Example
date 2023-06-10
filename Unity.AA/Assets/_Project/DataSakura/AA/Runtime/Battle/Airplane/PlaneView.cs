@@ -8,7 +8,7 @@ using UnityEngine;
 namespace DataSakura.AA.Runtime.Battle.Airplane
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class PlaneView : MonoBehaviour, IFollowable
+    public class PlaneView : MonoBehaviour
     {
         public enum AirplaneState
         {
@@ -116,7 +116,7 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
         private float _currentEngineLightIntensity;
         private float _currentEngineSoundPitch;
 
-        private readonly BoolReactiveProperty _planeIsDead = new(false);
+        private readonly BoolReactiveProperty _isDead = new(false);
 
         private Rigidbody _rb;
         private Runway _currentRunway;
@@ -130,8 +130,7 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
         private IInput _input;
         private bool _isPlayer;
         public bool IsPlayer => _isPlayer;
-        public IReadOnlyReactiveProperty<bool> OnDead => _planeIsDead;
-        Transform IFollowable.Transform => transform;
+        public IReadOnlyReactiveProperty<bool> IsDead => _isDead;
         public float RollAngle { get; private set; }
         public float PitchAngle { get; private set; }
         public float ForwardSpeed { get; private set; }
@@ -154,8 +153,6 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
                 _rb.isKinematic = true;
                 _rb.useGravity = false;
                 _rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
-
-                SetupColliders(crashCollidersRoot);
             }
 
             _isPlayer = isPlayer;
@@ -168,6 +165,8 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
             gameObject.layer = isPlayer
                 ? LayerMask.NameToLayer(RuntimeConstants.PhysicLayers.PlayerBody)
                 : LayerMask.NameToLayer(RuntimeConstants.PhysicLayers.EnemyBody);
+            
+            SetupColliders(crashCollidersRoot);
         }
 
         private void Update()
@@ -200,7 +199,7 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
             UpdatePropellersAndLights();
 
             //Airplane move only if not dead
-            if (!_planeIsDead.Value) {
+            if (!_isDead.Value) {
                 Movement();
                 SidewaysForceCalculation();
             }
@@ -209,7 +208,7 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
             }
 
             //Crash
-            if (!_planeIsDead.Value && HitSometing()) {
+            if (!_isDead.Value && HitSometing()) {
                 Crash();
             }
         }
@@ -410,7 +409,7 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
             if (airplaneState == AirplaneState.Flying) {
                 engineSoundSource.pitch = Mathf.Lerp(engineSoundSource.pitch, _currentEngineSoundPitch, 10f * Time.deltaTime);
 
-                if (_planeIsDead.Value) {
+                if (_isDead.Value) {
                     engineSoundSource.volume = Mathf.Lerp(engineSoundSource.volume, 0f, 10f * Time.deltaTime);
                 }
                 else {
@@ -433,7 +432,7 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
 
         private void UpdatePropellersAndLights()
         {
-            if (!_planeIsDead.Value) {
+            if (!_isDead.Value) {
                 //Rotate propellers if any
                 if (propellers.Length > 0) {
                     RotatePropellers(propellers, _currentSpeed * propelSpeedMultiplier);
@@ -499,7 +498,7 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
         private void ControlEngineLights(Light[] lights, float intensity)
         {
             for (int i = 0; i < lights.Length; i++) {
-                if (!_planeIsDead.Value) {
+                if (!_isDead.Value) {
                     lights[i].intensity = Mathf.Lerp(lights[i].intensity, intensity, 10f * Time.deltaTime);
                 }
                 else {
@@ -544,7 +543,7 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
             }
 
             //Kill player
-            _planeIsDead.Value = true;
+            _isDead.Value = true;
 
             Destroy(gameObject, 5f);
         }
@@ -561,6 +560,11 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
         public void ResetMaxSpeed()
         {
             _maxSpeed = defaultSpeed;
+        }
+
+        public void SetDefaultBotSpeed()
+        {
+            defaultSpeed *= .5f;
         }
 
         #endregion

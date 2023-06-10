@@ -41,7 +41,7 @@ namespace DataSakura.AA.Runtime.Battle
             {
                 UnderwaterPlane plane = _follow[i];
 
-                if (plane.View.OnDead.Value)
+                if (plane.View.IsDead.Value)
                     continue;
 
                 if (plane.View.transform.position.y > _waterConfig.WaterLevel && plane.IsUnderwater) {

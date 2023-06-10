@@ -4,6 +4,7 @@ using DataSakura.AA.Runtime.Battle.Airplane;
 using DataSakura.AA.Runtime.Battle.UI;
 using DataSakura.AA.Runtime.Utilities;
 using UniRx;
+using UnityEngine;
 
 namespace DataSakura.AA.Runtime.Battle
 {
@@ -28,14 +29,15 @@ namespace DataSakura.AA.Runtime.Battle
             // spawn player and bots
             {
                 Player = _planeFactory.CreatePlayer(RuntimeConstants.Planes.Corncob);
-                Player.OnDead.RxSubscribe(isDead => OnPlayerDead(isDead, Player)).AddTo(_disposables);
+                Player.IsDead.RxSubscribe(isDead => OnPlayerDead(isDead, Player)).AddTo(_disposables);
                 Player.gameObject.SetActive(false);
 
                 _bots = new List<PlaneView>(levelConfiguration.EnemiesCount);
 
                 for (var i = 0; i < levelConfiguration.EnemiesCount; i++) {
                     PlaneView bot = _planeFactory.CreateBot(RuntimeConstants.Planes.Corncob, Player);
-                    bot.OnDead.RxSubscribe(isDead => OnBotDie(isDead, bot)).AddTo(_disposables);
+                    bot.IsDead.RxSubscribe(isDead => OnBotDie(isDead, bot)).AddTo(_disposables);
+                    bot.transform.position = Random.insideUnitSphere * 15 + Player.transform.forward * 50 + Vector3.up * 15;
                     bot.gameObject.SetActive(false);
                     _bots.Add(bot);
                 }
