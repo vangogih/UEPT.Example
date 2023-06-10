@@ -23,7 +23,8 @@ namespace DataSakura.AA.Runtime.Battle
 
         public void Shoot(PlaneView planeView)
         {
-            CreateBullet(planeView.firePivot, planeView.IsPlayer);
+            if (planeView != null)
+                CreateBullet(planeView.firePivot, planeView.IsPlayer);
         }
 
         private Bullet CreateBullet(Transform spawnPoint, bool isPlayer)

@@ -10,15 +10,16 @@ namespace DataSakura.AA.Runtime.Battle.Joystick
 
         private readonly ShootingService _shootingService;
         private readonly BotPlaneConfig _botConfig;
-        private readonly IFollowable _self;
-        private readonly IFollowable _target;
+        private readonly PlaneView _self;
+        private readonly PlaneView _target;
 
-        private float _sqrDistanceToShoot;
+        private readonly float _sqrDistanceToShoot;
+        private float _lastShootTime;
 
         public BotBrain(ShootingService shootingService,
             BotPlaneConfig botConfig,
-            IFollowable self,
-            IFollowable target)
+            PlaneView self,
+            PlaneView target)
         {
             _shootingService = shootingService;
             _botConfig = botConfig;
@@ -33,11 +34,16 @@ namespace DataSakura.AA.Runtime.Battle.Joystick
             if (_target == null)
                 return;
 
-            Vector3 targetPosition = _target.Transform.position;
-            Vector3 selfPosition = _self.Transform.position;
+            Vector3 targetPosition = _target.transform.position;
+            Vector3 selfPosition = _self.transform.position;
             Vector3 direction = targetPosition - selfPosition;
 
-            Direction = new Vector2(direction.x, direction.z).normalized;
+            _self.transform.forward = direction;
+
+            if (direction.sqrMagnitude < _sqrDistanceToShoot && Time.time - _lastShootTime > _botConfig.ShootInterval) {
+                _shootingService.Shoot(_self);
+                _lastShootTime = Time.time;
+            }
         }
     }
 }

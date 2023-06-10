@@ -2,9 +2,13 @@
     "name": "AA.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:67ffc7f0a2b707b48a0afa6c35fc6c41"
+        "GUID:67ffc7f0a2b707b48a0afa6c35fc6c41",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor",
+        "QNX"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

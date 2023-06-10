@@ -8,9 +8,9 @@
       }
     },
     "BotPlaneConfig": {
-      "ShootInterval": 3.0,
-      "DistanceToShoot": 10.0,
-      "Responsiveness": 0.0,
+      "ShootInterval": 1.0,
+      "DistanceToShoot": 100.0,
+      "Responsiveness": 0.5,
       "Bullet": {
         "Speed": 500.0,
         "LifeTime": 5.0

@@ -133,25 +133,19 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
         public bool IsPlayer => _isPlayer;
         public IReadOnlyReactiveProperty<bool> OnDead => _planeIsDead;
         Transform IFollowable.Transform => transform;
-
-        private void Start()
-        {
-            //Setup speeds
-            _maxSpeed = defaultSpeed;
-            _currentSpeed = defaultSpeed;
-
-            //Get and set rigidbody
-            _rb = GetComponent<Rigidbody>();
-            _rb.isKinematic = true;
-            _rb.useGravity = false;
-            _rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
-
-            SetupColliders(crashCollidersRoot);
-        }
+        [SerializeField] private Transform _test;
 
         private void HandleInputs()
         {
             //Rotate inputs
+            if (_test != null) {
+                Vector3 direction = _test.position - transform.position;
+                var dn = direction.normalized;
+                _inputH = dn.x;
+                _inputV = dn.y;
+                return;
+            }
+
             var d = _input.Direction;
             _inputH = d.x * _planeConfig.Responsiveness; //Input.GetAxis("Horizontal");
             _inputV = d.y * _planeConfig.Responsiveness; //Input.GetAxis("Vertical");
@@ -166,6 +160,18 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
 
         public void Initialize(PlaneConfig planeConfig, IInput input, bool isPlayer)
         {
+            {
+                _maxSpeed = defaultSpeed;
+                _currentSpeed = defaultSpeed;
+
+                _rb = GetComponent<Rigidbody>();
+                _rb.isKinematic = true;
+                _rb.useGravity = false;
+                _rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+
+                SetupColliders(crashCollidersRoot);
+            }
+
             _isPlayer = isPlayer;
             _planeConfig = planeConfig;
             _input = input;
@@ -225,10 +231,11 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
             float mutiplierYRot = sidewaysMovement * sidewaysMovementYRot;
 
             float mutiplierYPos = sidewaysMovement * sidewaysMovementYPos;
+            Vector3 localEulerAngles = transform.localEulerAngles;
 
             //Right side 
-            if (transform.localEulerAngles.z > 270f && transform.localEulerAngles.z < 360f) {
-                float angle = (transform.localEulerAngles.z - 270f) / (360f - 270f);
+            if (localEulerAngles.z > 270f && localEulerAngles.z < 360f) {
+                float angle = (localEulerAngles.z - 270f) / (360f - 270f);
                 float invert = 1f - angle;
 
                 transform.Rotate(Vector3.up * (invert * mutiplierYRot * Time.deltaTime));
@@ -238,8 +245,8 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
             }
 
             //Left side
-            if (transform.localEulerAngles.z > 0f && transform.localEulerAngles.z < 90f) {
-                float angle = transform.localEulerAngles.z / 90f;
+            if (localEulerAngles.z > 0f && localEulerAngles.z < 90f) {
+                float angle = localEulerAngles.z / 90f;
 
                 transform.Rotate(-Vector3.up * (angle * mutiplierYRot * Time.deltaTime));
                 transform.Rotate(Vector3.right * (-angle * mutiplierXRot * _currentPitchSpeed * Time.deltaTime));
@@ -248,8 +255,8 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
             }
 
             //Right side down
-            if (transform.localEulerAngles.z > 90f && transform.localEulerAngles.z < 180f) {
-                float angle = (transform.localEulerAngles.z - 90f) / (180f - 90f);
+            if (localEulerAngles.z > 90f && localEulerAngles.z < 180f) {
+                float angle = (localEulerAngles.z - 90f) / (180f - 90f);
                 float invert = 1f - angle;
 
                 transform.Translate(transform.up * (invert * mutiplierYPos * Time.deltaTime));
@@ -257,8 +264,8 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
             }
 
             //Left side down
-            if (transform.localEulerAngles.z > 180f && transform.localEulerAngles.z < 270f) {
-                float angle = (transform.localEulerAngles.z - 180f) / (270f - 180f);
+            if (localEulerAngles.z > 180f && localEulerAngles.z < 270f) {
+                float angle = (localEulerAngles.z - 180f) / (270f - 180f);
 
                 transform.Translate(transform.up * (angle * mutiplierYPos * Time.deltaTime));
                 transform.Rotate(Vector3.right * (-angle * mutiplierXRot * _currentPitchSpeed * Time.deltaTime));
@@ -452,6 +459,7 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
                 //Change collider to trigger
                 Collider _collider = colliders[i];
                 _collider.isTrigger = true;
+                _collider.gameObject.layer = gameObject.layer;
 
                 GameObject currentObject = _collider.gameObject;
 
@@ -526,7 +534,7 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
 
             //Kill player
             _planeIsDead.Value = true;
-            
+
             Destroy(gameObject, 5f);
         }
 
