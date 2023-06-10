@@ -10,11 +10,12 @@ namespace DataSakura.AA.Runtime.Battle
     public class BattleController : ILoadUnit<LevelConfiguration>
     {
         public IReadOnlyList<PlaneView> Bots => _bots;
+        public PlaneView Player => _player;
 
         private readonly PlaneFactory _planeFactory;
         private readonly BattleHudController _battleHudController;
         private readonly ShootingService _shootingService;
-        private PlaneView _playerView;
+        private PlaneView _player;
         private List<PlaneView> _bots;
         private readonly CompositeDisposable _disposables = new();
 
@@ -31,28 +32,28 @@ namespace DataSakura.AA.Runtime.Battle
         {
             // spawn player and bots
             {
-                _playerView = _planeFactory.Create(SpawnParams.Player(RuntimeConstants.Planes.Corncob));
-                _playerView.OnDead.RxSubscribe(isDead => OnPlayerDead(isDead, _playerView)).AddTo(_disposables);
-                _playerView.gameObject.SetActive(false);
+                _player = _planeFactory.CreatePlayer(RuntimeConstants.Planes.Corncob);
+                _player.OnDead.RxSubscribe(isDead => OnPlayerDead(isDead, _player)).AddTo(_disposables);
+                _player.gameObject.SetActive(false);
 
                 _bots = new List<PlaneView>(levelConfiguration.EnemiesCount);
 
                 for (var i = 0; i < levelConfiguration.EnemiesCount; i++) {
-                    PlaneView bot = _planeFactory.Create(SpawnParams.Bot(RuntimeConstants.Planes.Corncob));
+                    PlaneView bot = _planeFactory.CreateBot(RuntimeConstants.Planes.Corncob, _player);
                     bot.OnDead.RxSubscribe(isDead => OnBotDie(isDead, bot)).AddTo(_disposables);
                     bot.gameObject.SetActive(false);
                     _bots.Add(bot);
                 }
             }
-            
-            _battleHudController.Initialize(_playerView);
+
+            _battleHudController.Initialize(_player);
 
             return UniTask.CompletedTask;
         }
 
         public void StartBattle()
         {
-            _playerView.gameObject.SetActive(true);
+            _player.gameObject.SetActive(true);
 
             for (var i = 0; i < _bots.Count; i++)
                 _bots[i].gameObject.SetActive(true);

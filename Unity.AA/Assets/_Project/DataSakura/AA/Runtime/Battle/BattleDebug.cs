@@ -1,6 +1,7 @@
 ﻿using Sirenix.OdinInspector;
 using UnityEngine;
 using VContainer;
+using VContainer.Unity;
 
 namespace DataSakura.AA.Runtime.Battle
 {
@@ -17,7 +18,14 @@ namespace DataSakura.AA.Runtime.Battle
         [Button]
         public void Spawn(string planeName)
         {
-            _factory.Create(SpawnParams.Bot(planeName));
+            var battleCtl = ResolveFromScope<BattleController, BattleScope>();
+            _factory.CreateBot(planeName, battleCtl.Player);
+        }
+        
+        private static TResolve ResolveFromScope<TResolve, TScope>() where TScope : LifetimeScope
+        {
+            TScope scope = Object.FindObjectOfType<TScope>();
+            return scope.Container.Resolve<TResolve>();
         }
     }
 }

@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using DataSakura.AA.Runtime.Battle.Joystick;
 using UniRx;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace DataSakura.AA.Runtime.Battle.Airplane
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class PlaneView : MonoBehaviour
+    public class PlaneView : MonoBehaviour, IFollowable
     {
         public enum AirplaneState
         {
@@ -129,6 +127,7 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
         private bool _isPlayer;
         public bool IsPlayer => _isPlayer;
         public IReadOnlyReactiveProperty<bool> OnDead => _planeIsDead;
+        Transform IFollowable.Transform => transform;
 
         private void Start()
         {

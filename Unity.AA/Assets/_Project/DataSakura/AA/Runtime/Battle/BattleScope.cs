@@ -20,7 +20,6 @@ namespace DataSakura.AA.Runtime.Battle
             builder.RegisterComponent(_battleHudController).AsSelf();
             builder.RegisterComponent(_debug).AsSelf();
 
-            builder.Register<BotInput>(Lifetime.Singleton).AsSelf();
             builder.Register<ShootingService>(Lifetime.Singleton);
             builder.Register<PlaneFactory>(Lifetime.Singleton);
             builder.Register<BattleController>(Lifetime.Singleton);

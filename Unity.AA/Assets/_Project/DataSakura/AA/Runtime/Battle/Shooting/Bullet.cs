@@ -13,7 +13,7 @@ namespace DataSakura.AA.Runtime.Battle
             gameObject.layer = collideMask;
             Destroy(gameObject, config.LifeTime);
         }
-        
+
         private void Update()
         {
             transform.position += transform.forward * (_config.Speed * Time.deltaTime);

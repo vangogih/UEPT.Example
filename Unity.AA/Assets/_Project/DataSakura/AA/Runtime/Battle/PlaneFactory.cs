@@ -12,15 +12,13 @@ namespace DataSakura.AA.Runtime.Battle
     {
         private readonly ConfigContainer _configs;
         private readonly JoystickInput _joystick;
-        private readonly BotInput _botInput;
         private Dictionary<string, PlaneView> _prefabs;
         private PlaneView _playerPlane;
 
-        public PlaneFactory(ConfigContainer configs, JoystickInput joystick, BotInput botInput)
+        public PlaneFactory(ConfigContainer configs, JoystickInput joystick)
         {
             _configs = configs;
             _joystick = joystick;
-            _botInput = botInput;
         }
 
         UniTask ILoadUnit.Load()
@@ -33,28 +31,18 @@ namespace DataSakura.AA.Runtime.Battle
             return UniTask.CompletedTask;
         }
 
-        public PlaneView Create(SpawnParams @params)
+        public PlaneView CreatePlayer(string planeName)
         {
-            PlaneView plane = Object.Instantiate(_prefabs[@params.PlaneName]);
-            IInput input = @params.IsPlayer ? _joystick : _botInput;
-            var cfg = @params.IsPlayer ? _configs.Battle.PlaneConfig : _configs.Battle.BotPlaneConfig;
-            plane.Initialize(cfg, input, @params.IsPlayer);
-            return plane;
-        }
-    }
-
-    public readonly ref struct SpawnParams
-    {
-        public readonly string PlaneName;
-        public readonly bool IsPlayer;
-
-        private SpawnParams(string planeName, bool isPlayer)
-        {
-            PlaneName = planeName;
-            IsPlayer = isPlayer;
+            PlaneView player = Object.Instantiate(_prefabs[planeName]);
+            player.Initialize(_configs.Battle.PlaneConfig, _joystick, true);
+            return player;
         }
 
-        public static SpawnParams Player(string planeName) => new(planeName, true);
-        public static SpawnParams Bot(string planeName) => new(planeName, false);
+        public PlaneView CreateBot(string planeName, PlaneView playerPlane)
+        {
+            PlaneView bot = Object.Instantiate(_prefabs[planeName]);
+            bot.Initialize(_configs.Battle.BotPlaneConfig, new BotInput(_configs.Battle.BotPlaneConfig, bot, playerPlane), false);
+            return bot;
+        }
     }
 }

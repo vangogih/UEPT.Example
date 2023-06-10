@@ -1,29 +1,38 @@
-﻿using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
-using DataSakura.AA.Runtime.Battle.Airplane;
-using DataSakura.AA.Runtime.Utilities;
+﻿using DataSakura.AA.Runtime.Battle.Airplane;
 using UnityEngine;
-using VContainer.Unity;
 
 namespace DataSakura.AA.Runtime.Battle.Joystick
 {
-    public class BotInput : ILoadUnit<IReadOnlyList<PlaneView>>, IInput, IFixedTickable
+    public sealed class BotInput : IInput
     {
-        public Vector2 Direction { get; }
-        public bool IsPressed { get; }
+        public Vector2 Direction { get; private set; }
+        public bool IsPressed { get; } = false;
 
-        private IReadOnlyList<PlaneView> _bots;
+        private readonly BotPlaneConfig _botConfig;
+        private readonly IFollowable _self;
+        private readonly IFollowable _target;
 
-        public UniTask Load(IReadOnlyList<PlaneView> param)
+        private readonly float _sqrDistanceToShoot;
+
+        public BotInput(BotPlaneConfig botConfig, IFollowable self, IFollowable target)
         {
-            _bots = param;
-            return UniTask.CompletedTask;
+            _botConfig = botConfig;
+            _self = self;
+            _target = target;
+            
+            _sqrDistanceToShoot = botConfig.DistanceToShoot * botConfig.DistanceToShoot;
         }
 
         public void FixedTick()
         {
-            if (_bots.Count == 0)
+            if (_target == null)
                 return;
+
+            Vector3 targetPosition = _target.Transform.position;
+            Vector3 selfPosition = _self.Transform.position;
+            Vector3 direction = targetPosition - selfPosition;
+
+            Direction = new Vector2(direction.x, direction.z).normalized;
         }
     }
 }
