@@ -1,3 +1,4 @@
+using _Project.DataSakura.AA.Editor.ManualTests;
 using DataSakura.AA.Runtime;
 using DataSakura.AA.Runtime.Battle;
 using DataSakura.AA.Runtime.Battle.Airplane;
@@ -7,7 +8,7 @@ using UnityEngine;
 public class BotBrainDebug : MonoBehaviour
 {
     public PlaneView Source;
-    public PlaneView Target;
+    public TestFollowable Target;
     private BotBrain _bb;
 
     private async void Awake()
