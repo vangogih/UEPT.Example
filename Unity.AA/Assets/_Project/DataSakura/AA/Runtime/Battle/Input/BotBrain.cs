@@ -44,13 +44,7 @@ namespace DataSakura.Runtime.Battle.Input
                 return;
 
             SetDirection();
-
-            Vector3 direction = _target.transform.position - _self.transform.position;
-
-            if (direction.sqrMagnitude < _sqrDistanceToShoot && Time.time - _lastShootTime > _config.ShootInterval) {
-                _shootingService.Shoot(_self);
-                _lastShootTime = Time.time;
-            }
+            Shoot();
         }
 
         /// <summary>
@@ -97,6 +91,24 @@ namespace DataSakura.Runtime.Battle.Input
             yawInput *= currentSpeedEffect;
 
             Direction = new Vector3(Mathf.Clamp(rollInput, -1, 1), Mathf.Clamp(pitchInput, -1, 1), Mathf.Clamp(yawInput, -1, 1));
+        }
+
+        private void Shoot()
+        {
+            if (Time.time - _lastShootTime < _config.ShootInterval)
+                return;
+
+            Transform transform = _self.transform;
+            Vector3 direction = _target.transform.position - transform.position;
+            float dotN = Vector3.Dot(transform.forward, direction.normalized);
+
+            if (dotN < 0.9f)
+                return;
+
+            if (direction.sqrMagnitude < _sqrDistanceToShoot) {
+                _shootingService.Shoot(_self);
+                _lastShootTime = Time.time;
+            }
         }
     }
 }
