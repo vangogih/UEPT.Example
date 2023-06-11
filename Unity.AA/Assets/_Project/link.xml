@@ -1,0 +1,24 @@
+<linker>
+  <assembly fullname="AA.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="DataSakura.Runtime.Battle.BattleController" preserve="all" />
+    <type fullname="DataSakura.Runtime.Battle.BattleDebug" preserve="all" />
+    <type fullname="DataSakura.Runtime.Battle.BattleFlow" preserve="all" />
+    <type fullname="DataSakura.Runtime.Battle.Input.JoystickInput" preserve="all" />
+    <type fullname="DataSakura.Runtime.Battle.PlaneFactory" preserve="all" />
+    <type fullname="DataSakura.Runtime.Battle.Shooting.ShootingService" preserve="all" />
+    <type fullname="DataSakura.Runtime.Battle.UI.BattleCanvasProvider" preserve="all" />
+    <type fullname="DataSakura.Runtime.Battle.UI.BattleHudController" preserve="all" />
+    <type fullname="DataSakura.Runtime.Battle.WaterBuffService" preserve="all" />
+    <type fullname="DataSakura.Runtime.Bootstrap.BootstrapFlow" preserve="all" />
+    <type fullname="DataSakura.Runtime.ConfigContainer" preserve="all" />
+    <type fullname="DataSakura.Runtime.Utilities.LoadingService" preserve="all" />
+    <type fullname="DataSakura.Runtime.Utilities.OrientationHelper" preserve="all" />
+  </assembly>
+  <assembly fullname="Unity.RenderPipelines.Universal.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset" preserve="all" />
+  </assembly>
+  <assembly fullname="VContainer, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="VContainer.Internal.ContainerLocal`1" preserve="all" />
+    <type fullname="VContainer.Unity.EntryPointDispatcher" preserve="all" />
+  </assembly>
+</linker>
