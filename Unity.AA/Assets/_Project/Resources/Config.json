@@ -10,6 +10,7 @@
     "BotPlaneConfig": {
       "ShootInterval": 1.0,
       "DistanceToShoot": 100.0,
+      "DefaultSpeedModificator": 0.5,
       "RollSensitivity": 0.5,
       "PitchSensitivity": 0.5,
       "LateralWanderDistance": 2.0,

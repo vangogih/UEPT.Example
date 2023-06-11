@@ -34,7 +34,7 @@ namespace DataSakura.AA.Runtime.Battle.Joystick
             Observable.EveryFixedUpdate().RxSubscribe(FixedTick);
         }
 
-        public void FixedTick(long _)
+        private void FixedTick(long _)
         {
             if (_target == null)
                 return;

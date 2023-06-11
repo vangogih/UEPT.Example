@@ -562,9 +562,9 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
             _maxSpeed = defaultSpeed;
         }
 
-        public void SetDefaultBotSpeed()
+        public void BuffDefaultSpeed(float clamped01Percent)
         {
-            defaultSpeed *= .5f;
+            defaultSpeed *= clamped01Percent;
         }
 
         #endregion

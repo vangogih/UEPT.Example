@@ -38,7 +38,8 @@ namespace DataSakura.AA.Runtime
     public class BotPlaneConfig : PlaneConfig
     {
         public float ShootInterval;
-        public float DistanceToShoot;            
+        public float DistanceToShoot;
+        public float DefaultSpeedModificator = .5f;
         /// <summary> How sensitively the AI applies the roll controls</summary>
         public float RollSensitivity = .5f;      
         /// <summary> How sensitively the AI applies the pitch controls</summary>

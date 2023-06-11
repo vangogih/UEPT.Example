@@ -43,11 +43,10 @@ namespace DataSakura.AA.Runtime.Battle
         public PlaneView CreateBot(string planeName, PlaneView playerPlane)
         {
             PlaneView bot = Object.Instantiate(_prefabs[planeName]);
+            BotPlaneConfig botConfig = _configs.Battle.BotPlaneConfig;
 
-            bot.Initialize(_configs.Battle.BotPlaneConfig,
-                new BotBrain(_shootingService, _configs.Battle.BotPlaneConfig, bot, playerPlane),
-                false);
-            bot.SetDefaultBotSpeed();
+            bot.Initialize(botConfig, new BotBrain(_shootingService, botConfig, bot, playerPlane), false);
+            bot.BuffDefaultSpeed(botConfig.DefaultSpeedModificator);
             return bot;
         }
     }
