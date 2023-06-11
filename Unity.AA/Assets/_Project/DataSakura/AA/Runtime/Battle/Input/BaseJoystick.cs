@@ -1,10 +1,10 @@
 using Cysharp.Threading.Tasks;
-using Silverfox.Runtime.UI;
+using DataSakura.Runtime.Battle.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using VContainer;
 
-namespace DataSakura.AA.Runtime.Battle.Joystick
+namespace DataSakura.Runtime.Battle.Input
 {
     public class BaseJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
     {

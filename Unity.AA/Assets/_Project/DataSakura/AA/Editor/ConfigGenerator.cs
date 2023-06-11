@@ -1,10 +1,10 @@
 ﻿using System.IO;
-using DataSakura.AA.Runtime;
+using DataSakura.Runtime;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 
-namespace _Project.DataSakura.AA.Editor
+namespace DataSakura.Editor
 {
     public class ConfigGenerator
     {

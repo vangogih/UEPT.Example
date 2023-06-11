@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DataSakura.AA.Runtime.Utilities.Logging
+namespace DataSakura.Runtime.Utilities.Logging
 {
     public sealed class BuilderLogPool
     {

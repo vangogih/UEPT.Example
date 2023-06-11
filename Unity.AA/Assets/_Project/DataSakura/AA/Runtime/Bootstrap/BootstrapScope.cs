@@ -1,8 +1,8 @@
-using DataSakura.AA.Runtime.Utilities;
+using DataSakura.Runtime.Utilities;
 using VContainer;
 using VContainer.Unity;
 
-namespace DataSakura.AA.Runtime.Bootstrap
+namespace DataSakura.Runtime.Bootstrap
 {
     public sealed class BootstrapScope : LifetimeScope
     {

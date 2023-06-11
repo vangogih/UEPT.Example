@@ -3,7 +3,7 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace DataSakura.AA.Runtime.Battle
+namespace DataSakura.Runtime.Battle
 {
     public sealed class BattleDebug : MonoBehaviour
     {

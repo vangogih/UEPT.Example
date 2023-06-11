@@ -2,7 +2,7 @@
 using UniRx;
 using UnityEngine;
 
-namespace DataSakura.AA.Runtime.Battle.Joystick
+namespace DataSakura.Runtime.Battle.Input
 {
     public interface IInput
     {

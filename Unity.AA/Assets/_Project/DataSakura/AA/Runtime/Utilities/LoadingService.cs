@@ -2,10 +2,10 @@ using System;
 using System.Diagnostics;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using DataSakura.AA.Runtime.Utilities.Logging;
+using DataSakura.Runtime.Utilities.Logging;
 using UniRx;
 
-namespace DataSakura.AA.Runtime.Utilities
+namespace DataSakura.Runtime.Utilities
 {
     public interface IDisposableLoadUnit : ILoadUnit, IDisposable { }
 

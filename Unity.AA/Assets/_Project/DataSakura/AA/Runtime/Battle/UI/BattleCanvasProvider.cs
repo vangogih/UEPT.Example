@@ -1,10 +1,10 @@
 using System;
-using DataSakura.AA.Runtime.Utilities;
+using DataSakura.Runtime.Utilities;
 using UniRx;
 using UnityEngine;
 using VContainer;
 
-namespace Silverfox.Runtime.UI
+namespace DataSakura.Runtime.Battle.UI
 {
     [RequireComponent(typeof(Canvas))]
     public sealed class BattleCanvasProvider : MonoBehaviour

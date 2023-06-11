@@ -1,11 +1,11 @@
-﻿using DataSakura.AA.Runtime.Battle.Joystick;
-using DataSakura.AA.Runtime.Battle.UI;
-using Silverfox.Runtime.UI;
+﻿using DataSakura.Runtime.Battle.Input;
+using DataSakura.Runtime.Battle.Shooting;
+using DataSakura.Runtime.Battle.UI;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace DataSakura.AA.Runtime.Battle
+namespace DataSakura.Runtime.Battle
 {
     public sealed class BattleScope : LifetimeScope
     {

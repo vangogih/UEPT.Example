@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DataSakura.AA.Runtime.Utilities
+namespace DataSakura.Runtime.Utilities
 {
     public static class AssetService
     {

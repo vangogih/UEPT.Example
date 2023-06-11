@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using DataSakura.AA.Runtime.Battle.Airplane;
-using DataSakura.AA.Runtime.Battle.Joystick;
-using DataSakura.AA.Runtime.Utilities;
+using DataSakura.Runtime.Battle.Airplane;
+using DataSakura.Runtime.Battle.Input;
+using DataSakura.Runtime.Battle.Shooting;
+using DataSakura.Runtime.Utilities;
 using UnityEngine;
 using Resources = UnityEngine.Resources;
 
-namespace DataSakura.AA.Runtime.Battle
+namespace DataSakura.Runtime.Battle
 {
     public class PlaneFactory : ILoadUnit
     {
@@ -44,8 +45,9 @@ namespace DataSakura.AA.Runtime.Battle
         {
             PlaneView bot = Object.Instantiate(_prefabs[planeName]);
             BotPlaneConfig botConfig = _configs.Battle.BotPlaneConfig;
+            var botInput = new BotBrain(_shootingService, botConfig, bot, playerPlane);
 
-            bot.Initialize(botConfig, new BotBrain(_shootingService, botConfig, bot, playerPlane), false);
+            bot.Initialize(botConfig, botInput, false);
             bot.BuffDefaultSpeed(botConfig.DefaultSpeedModificator);
             return bot;
         }

@@ -266,7 +266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentReference:
-    TypeName: DataSakura.AA.Runtime.Bootstrap.BootstrapScope
+    TypeName: DataSakura.Runtime.Bootstrap.BootstrapScope
   autoRun: 1
   autoInjectGameObjects: []
   _battleCanvasProvider: {fileID: 1371545355}

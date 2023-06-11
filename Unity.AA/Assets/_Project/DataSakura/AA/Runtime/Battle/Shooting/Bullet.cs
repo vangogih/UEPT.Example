@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DataSakura.AA.Runtime.Battle
+namespace DataSakura.Runtime.Battle.Shooting
 {
     public sealed class Bullet : MonoBehaviour
     {

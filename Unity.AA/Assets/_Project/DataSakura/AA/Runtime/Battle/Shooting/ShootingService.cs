@@ -1,9 +1,9 @@
 ﻿using Cysharp.Threading.Tasks;
-using DataSakura.AA.Runtime.Battle.Airplane;
-using DataSakura.AA.Runtime.Utilities;
+using DataSakura.Runtime.Battle.Airplane;
+using DataSakura.Runtime.Utilities;
 using UnityEngine;
 
-namespace DataSakura.AA.Runtime.Battle
+namespace DataSakura.Runtime.Battle.Shooting
 {
     public class ShootingService : ILoadUnit
     {

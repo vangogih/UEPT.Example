@@ -1,10 +1,10 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
-using DataSakura.AA.Runtime.Utilities;
+using DataSakura.Runtime.Utilities;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace DataSakura.AA.Runtime
+namespace DataSakura.Runtime
 {
     public sealed class ConfigContainer : ILoadUnit
     {

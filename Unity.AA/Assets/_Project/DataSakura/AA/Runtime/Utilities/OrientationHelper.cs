@@ -3,7 +3,7 @@ using UniRx;
 using UnityEngine;
 using VContainer.Unity;
 
-namespace DataSakura.AA.Runtime.Utilities
+namespace DataSakura.Runtime.Utilities
 {
     public class OrientationHelper : IFixedTickable, IDisposable
     {

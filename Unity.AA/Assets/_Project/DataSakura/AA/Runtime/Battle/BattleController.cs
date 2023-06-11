@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using DataSakura.AA.Runtime.Battle.Airplane;
-using DataSakura.AA.Runtime.Battle.UI;
-using DataSakura.AA.Runtime.Utilities;
+using DataSakura.Runtime.Battle.Airplane;
+using DataSakura.Runtime.Battle.UI;
+using DataSakura.Runtime.Utilities;
 using UniRx;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-namespace DataSakura.AA.Runtime.Battle
+namespace DataSakura.Runtime.Battle
 {
     public class BattleController : ILoadUnit<LevelConfiguration>
     {
@@ -56,9 +57,10 @@ namespace DataSakura.AA.Runtime.Battle
                 _bots[i].gameObject.SetActive(true);
         }
 
-        public void RestartBattle()
+        private void RestartBattle()
         {
             _disposables.Dispose();
+            SceneManager.LoadScene(RuntimeConstants.Scenes.Battle);
         }
 
         private void OnPlayerDead(bool isDead, PlaneView view)
@@ -66,8 +68,8 @@ namespace DataSakura.AA.Runtime.Battle
             if (!isDead)
                 return;
 
-            RestartBattle();
             _battleHudController.ShowGameOver();
+            RestartBattle();
         }
 
         private void OnBotDie(bool isDead, PlaneView view)
@@ -77,8 +79,11 @@ namespace DataSakura.AA.Runtime.Battle
 
             _bots.Remove(view);
 
-            if (_bots.Count == 0)
-                _battleHudController.ShowWin();
+            if (_bots.Count != 0)
+                return;
+            
+            _battleHudController.ShowWin();
+            RestartBattle();
         }
     }
 

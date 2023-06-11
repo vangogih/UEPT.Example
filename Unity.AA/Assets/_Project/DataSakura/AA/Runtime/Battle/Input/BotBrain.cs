@@ -1,8 +1,9 @@
-﻿using DataSakura.AA.Runtime.Battle.Airplane;
+﻿using DataSakura.Runtime.Battle.Airplane;
+using DataSakura.Runtime.Battle.Shooting;
 using UniRx;
 using UnityEngine;
 
-namespace DataSakura.AA.Runtime.Battle.Joystick
+namespace DataSakura.Runtime.Battle.Input
 {
     public sealed class BotBrain : IInput
     {

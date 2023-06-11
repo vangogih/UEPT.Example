@@ -1,9 +1,9 @@
-﻿using DataSakura.AA.Runtime.Utilities;
-using DataSakura.AA.Runtime.Utilities.Logging;
+﻿using DataSakura.Runtime.Utilities;
+using DataSakura.Runtime.Utilities.Logging;
 using UnityEngine.SceneManagement;
 using VContainer.Unity;
 
-namespace DataSakura.AA.Runtime.Bootstrap
+namespace DataSakura.Runtime.Bootstrap
 {
     public class BootstrapFlow : IStartable
     {

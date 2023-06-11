@@ -1,21 +1,20 @@
-﻿using DataSakura.AA.Runtime.Battle.Airplane;
-using DataSakura.AA.Runtime.Utilities.Logging;
-using Silverfox.Runtime.UI;
-using Silverfox.Runtime.Utilities;
+﻿using DataSakura.Runtime.Battle.Airplane;
+using DataSakura.Runtime.Battle.Shooting;
+using DataSakura.Runtime.Utilities;
+using DataSakura.Runtime.Utilities.Logging;
 using UniRx;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using VContainer;
 
-namespace DataSakura.AA.Runtime.Battle.UI
+namespace DataSakura.Runtime.Battle.UI
 {
     public sealed class BattleHudController : MonoBehaviour
     {
         [Header("Refs")] [SerializeField] private RectTransform crossHair;
         [SerializeField] private Button shootBtn;
 
-        private PlaneView _planeView;
+        private PlaneView _player;
         private RectTransform _canvasRect;
         private ShootingService _shootingService;
 
@@ -26,37 +25,34 @@ namespace DataSakura.AA.Runtime.Battle.UI
             _canvasRect = battleCanvasProvider.CanvasRect;
         }
 
-        public void Initialize(PlaneView planeView)
+        public void Initialize(PlaneView player)
         {
-            _planeView = planeView;
-
+            _player = player;
             shootBtn.OnClickAsObservable().RxSubscribe(OnShootClicked).AddTo(this);
         }
 
         private void OnShootClicked(Unit _)
         {
-            _shootingService.Shoot(_planeView);
+            _shootingService.Shoot(_player);
         }
 
         private void Update()
         {
-            if (_planeView == null)
+            if (_player == null)
                 return;
 
-            Vector3 crossPos = _planeView.transform.position + _planeView.transform.forward * 100f;
-            crossHair.anchoredPosition = CoordinateTransformer.FromWorldToCanvasLocalPos(crossPos, _planeView.planeCamera, _canvasRect);
+            Vector3 crossPos = _player.transform.position + _player.transform.forward * 100f;
+            crossHair.anchoredPosition = CoordinateTransformer.FromWorldToCanvasLocalPos(crossPos, _player.planeCamera, _canvasRect);
         }
 
         public void ShowGameOver()
         {
             Log.Battle.D("GAME OVER");
-            SceneManager.LoadScene(RuntimeConstants.Scenes.Battle);
         }
 
         public void ShowWin()
         {
             Log.Battle.D("WIN");
-            SceneManager.LoadScene(RuntimeConstants.Scenes.Battle);
         }
     }
 }

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-namespace DataSakura.AA.Runtime.Utilities.Logging
+namespace DataSakura.Runtime.Utilities.Logging
 {
     public sealed class TagLog
     {

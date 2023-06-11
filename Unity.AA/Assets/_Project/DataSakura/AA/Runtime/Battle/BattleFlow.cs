@@ -1,9 +1,10 @@
 ﻿using System;
-using DataSakura.AA.Runtime.Utilities;
-using DataSakura.AA.Runtime.Utilities.Logging;
+using DataSakura.Runtime.Battle.Shooting;
+using DataSakura.Runtime.Utilities;
+using DataSakura.Runtime.Utilities.Logging;
 using VContainer.Unity;
 
-namespace DataSakura.AA.Runtime.Battle
+namespace DataSakura.Runtime.Battle
 {
     public class BattleFlow : IStartable, IDisposable
     {

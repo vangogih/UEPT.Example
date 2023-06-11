@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace DataSakura.AA.Runtime.Battle.Airplane
+namespace DataSakura.Runtime.Battle.Airplane
 {
     public class SimpleAirPlaneCollider : MonoBehaviour
     {

@@ -1,4 +1,4 @@
-namespace DataSakura.AA.Runtime.Utilities.Logging
+namespace DataSakura.Runtime.Utilities.Logging
 {
     public static class Log
     {

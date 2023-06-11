@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEditor.SceneManagement;
 
-namespace _Project.DataSakura.AA.Editor
+namespace DataSakura.Editor
 {
     public class ToolBox
     {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine.SceneManagement;
 
-namespace DataSakura.AA.Runtime
+namespace DataSakura.Runtime
 {
     public static class RuntimeConstants
     {

@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using DataSakura.AA.Runtime.Battle.Joystick;
+﻿using System.Collections.Generic;
+using DataSakura.Runtime.Battle.Input;
 using Sirenix.OdinInspector;
 using UniRx;
 using UnityEngine;
 
-namespace DataSakura.AA.Runtime.Battle.Airplane
+namespace DataSakura.Runtime.Battle.Airplane
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class PlaneView : MonoBehaviour
+    public sealed class PlaneView : MonoBehaviour
     {
         public enum AirplaneState
         {
             Flying,
             Landing,
-            Takeoff,
         }
 
         private List<SimpleAirPlaneCollider> _airPlaneColliders = new List<SimpleAirPlaneCollider>();
@@ -100,11 +98,6 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
 
         [Header("Colliders")] [SerializeField] private Transform crashCollidersRoot;
 
-        [Header("Takeoff settings")]
-        [Tooltip("How far must the plane be from the runway before it can be controlled again")]
-        [SerializeField]
-        private float takeoffLenght = 30f;
-
         [Header("Debug")]
         [ReadOnly]
         [ShowInInspector]
@@ -119,7 +112,6 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
         private readonly BoolReactiveProperty _isDead = new(false);
 
         private Rigidbody _rb;
-        private Runway _currentRunway;
 
         private float _inputH;
         private float _inputV;
@@ -138,9 +130,9 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
         private void HandleInputs()
         {
             var d = _input.Direction;
-            _inputH = d.x * _planeConfig.Responsiveness; //Input.GetAxis("Horizontal");
-            _inputV = d.y * _planeConfig.Responsiveness; //Input.GetAxis("Vertical");
-            _inputYaw = d.z * _planeConfig.Responsiveness; //Input.GetAxis("Yaw");
+            _inputH = d.x * _planeConfig.Responsiveness;
+            _inputV = d.y * _planeConfig.Responsiveness;
+            _inputYaw = d.z * _planeConfig.Responsiveness;
         }
 
         public void Initialize(PlaneConfig planeConfig, IInput input, bool isPlayer)
@@ -181,10 +173,6 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
 
                 case AirplaneState.Landing:
                     LandingUpdate();
-                    break;
-
-                case AirplaneState.Takeoff:
-                    TakeoffUpdate();
                     break;
             }
             
@@ -348,11 +336,6 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
 
         #region Landing State
 
-        public void AddLandingRunway(Runway landingThisRunway)
-        {
-            _currentRunway = landingThisRunway;
-        }
-
         //My trasform is runway landing adjuster child
         private void LandingUpdate()
         {
@@ -365,36 +348,6 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
 
             //Set local rotation to zero
             transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(0f, 0f, 0f), 2f * Time.deltaTime);
-        }
-
-        #endregion
-
-        #region Takeoff State
-
-        private void TakeoffUpdate()
-        {
-            UpdatePropellersAndLights();
-
-            //Reset colliders
-            foreach (SimpleAirPlaneCollider airPlaneCollider in _airPlaneColliders) {
-                airPlaneCollider.collideSometing = false;
-            }
-
-            //Accelerate
-            if (_currentSpeed < turboSpeed) {
-                _currentSpeed += (accelerating * 2f) * Time.deltaTime;
-            }
-
-            //Move forward
-            transform.Translate(Vector3.forward * _currentSpeed * Time.deltaTime);
-
-            //Far enough from the runaway go back to flying state
-            float distanceToRunway = Vector3.Distance(transform.position, _currentRunway.transform.position);
-
-            if (distanceToRunway > takeoffLenght) {
-                _currentRunway = null;
-                airplaneState = AirplaneState.Flying;
-            }
         }
 
         #endregion
@@ -419,10 +372,6 @@ namespace DataSakura.AA.Runtime.Battle.Airplane
             else if (airplaneState == AirplaneState.Landing) {
                 engineSoundSource.pitch = Mathf.Lerp(engineSoundSource.pitch, defaultSoundPitch, 1f * Time.deltaTime);
                 engineSoundSource.volume = Mathf.Lerp(engineSoundSource.volume, 0f, 1f * Time.deltaTime);
-            }
-            else if (airplaneState == AirplaneState.Takeoff) {
-                engineSoundSource.pitch = Mathf.Lerp(engineSoundSource.pitch, turboSoundPitch, 1f * Time.deltaTime);
-                engineSoundSource.volume = Mathf.Lerp(engineSoundSource.volume, maxEngineSound, 1f * Time.deltaTime);
             }
         }
 

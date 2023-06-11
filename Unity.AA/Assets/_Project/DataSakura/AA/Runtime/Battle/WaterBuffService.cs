@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using DataSakura.AA.Runtime.Battle.Airplane;
-using DataSakura.AA.Runtime.Utilities;
+using DataSakura.Runtime.Battle.Airplane;
+using DataSakura.Runtime.Utilities;
 using VContainer.Unity;
 
-namespace DataSakura.AA.Runtime.Battle
+namespace DataSakura.Runtime.Battle
 {
     public class WaterBuffService : ILoadUnit, IFixedTickable
     {

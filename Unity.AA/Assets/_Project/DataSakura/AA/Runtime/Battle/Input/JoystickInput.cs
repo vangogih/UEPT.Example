@@ -3,7 +3,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace DataSakura.AA.Runtime.Battle.Joystick
+namespace DataSakura.Runtime.Battle.Input
 {
     public sealed class JoystickInput : BaseJoystick, IJoystickInput
     {

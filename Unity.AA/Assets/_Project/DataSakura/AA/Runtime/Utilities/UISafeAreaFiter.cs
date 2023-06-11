@@ -1,8 +1,8 @@
 using System;
-using DataSakura.AA.Runtime.Utilities.Logging;
+using DataSakura.Runtime.Utilities.Logging;
 using UnityEngine;
 
-namespace DataSakura.AA.Runtime.Utilities
+namespace DataSakura.Runtime.Utilities
 {
     public enum FitmentType
     {
@@ -19,15 +19,6 @@ namespace DataSakura.AA.Runtime.Utilities
         public static void FitInSafeArea(this RectTransform trans)
         {
             Rect safeAreaRect = Screen.safeArea;
-
-            //test safe area
-            // Rect safeAreaRectRaw = Screen.safeArea;
-            // const float offset = 50;
-            // Rect safeAreaRect = new Rect(safeAreaRectRaw.x + offset, 
-            //     safeAreaRectRaw.y + offset, 
-            //     safeAreaRectRaw.width - offset * 2, 
-            //     safeAreaRectRaw.height - offset * 2);
-
             Vector2 anchorMin = safeAreaRect.position;
             Vector2 anchorMax = safeAreaRect.position + safeAreaRect.size;
 
