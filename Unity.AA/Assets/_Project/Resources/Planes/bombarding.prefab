@@ -169,7 +169,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1550835879777865469}
-  m_LocalRotation: {x: -0.000000011175871, y: -0.000000056357592, z: 0.0000000023047293, w: 1}
+  m_LocalRotation: {x: -0.000000011175871, y: -0.000000056315216, z: 0.000000002302227, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -358,6 +358,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   airplaneState: 0
   planeCamera: {fileID: 5959956829434921286}
+  firePivot: {fileID: 0}
   trailThickness: 0.221
   wingTrailEffects:
   - {fileID: 986118286206021241}
@@ -390,7 +391,6 @@ MonoBehaviour:
   turbineLightTurbo: 5
   turbineLights: []
   crashCollidersRoot: {fileID: 5755362050260445566}
-  takeoffLenght: 100
 --- !u!54 &2730110421326168975
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -746,7 +746,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5168559383944399216}
-  m_LocalRotation: {x: -0.036324963, y: -0.00000002529113, z: -4.4881698e-10, w: 0.9993401}
+  m_LocalRotation: {x: -0.036324963, y: -0.000000025294545, z: -4.4873955e-10, w: 0.9993401}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -825,7 +825,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5636328489090370238}
-  m_LocalRotation: {x: -0.018189494, y: -0.000000064335744, z: 0.0000000016035331, w: 0.9998346}
+  m_LocalRotation: {x: -0.018189494, y: -0.00000006434263, z: 0.000000001603814, w: 0.9998346}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1214,7 +1214,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 710988108205388152}
-  - component: {fileID: 4748146207519921763}
   - component: {fileID: 5959956829434921286}
   - component: {fileID: 3722701225439903289}
   - component: {fileID: 8026058503653117983}
@@ -1233,7 +1232,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7534356322582521038}
-  m_LocalRotation: {x: 0.0113008795, y: -0.00000003176174, z: 3.5895853e-10, w: 0.99993616}
+  m_LocalRotation: {x: 0.0113008795, y: -0.00000003176132, z: 3.5895384e-10, w: 0.99993616}
   m_LocalPosition: {x: -0.00000010695175, y: 4.24, z: -40}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1242,22 +1241,6 @@ Transform:
   m_Father: {fileID: 4453122757757888994}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4748146207519921763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7534356322582521038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea6bf9033feb8da4b809d7e517cd3e62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  airPlaneView: {fileID: 6324967728365118132}
-  freeLook: {fileID: 3328621819469142585}
-  cameraDefaultFov: 40
-  cameraTurboFov: 60
 --- !u!20 &5959956829434921286
 Camera:
   m_ObjectHideFlags: 0

@@ -20,6 +20,7 @@ namespace DataSakura.Runtime.Bootstrap
         {
             Log.Default.D("BootstrapFlow.Start()");
 
+            await _loadingService.BeginLoading(new ApplicationConfigurationLoadUnit());
             await _loadingService.BeginLoading(_configContainer);
             SceneManager.LoadScene(RuntimeConstants.Scenes.Battle);
         }

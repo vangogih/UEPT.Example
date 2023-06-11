@@ -151,12 +151,14 @@ namespace DataSakura.Runtime.Battle.Airplane
             _planeConfig = planeConfig;
             _input = input;
 
-            if (!isPlayer)
-                planeCamera.gameObject.SetActive(false);
-
-            gameObject.layer = isPlayer
-                ? LayerMask.NameToLayer(RuntimeConstants.PhysicLayers.PlayerBody)
-                : LayerMask.NameToLayer(RuntimeConstants.PhysicLayers.EnemyBody);
+            if (isPlayer) {
+                gameObject.layer = LayerMask.NameToLayer(RuntimeConstants.PhysicLayers.PlayerBody); 
+                ChangeWingTrailEffectThickness(trailThickness);
+            }
+            else {
+                gameObject.layer = LayerMask.NameToLayer(RuntimeConstants.PhysicLayers.EnemyBody);
+                Destroy(planeCamera.gameObject);
+            }
             
             SetupColliders(crashCollidersRoot);
         }
@@ -298,7 +300,7 @@ namespace DataSakura.Runtime.Battle.Airplane
                 _currentEngineLightIntensity = turbineLightDefault;
 
                 //Effects
-                ChangeWingTrailEffectThickness(0f);
+                // ChangeWingTrailEffectThickness(0f);
 
                 //Audio
                 _currentEngineSoundPitch = defaultSoundPitch;

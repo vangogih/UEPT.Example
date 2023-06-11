@@ -177,6 +177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   airplaneState: 0
   planeCamera: {fileID: 6470102469199444142}
+  firePivot: {fileID: 0}
   trailThickness: 0.045
   wingTrailEffects:
   - {fileID: 2682199760203927900}
@@ -206,7 +207,6 @@ MonoBehaviour:
   turbineLights:
   - {fileID: 3331372608734884005}
   crashCollidersRoot: {fileID: 2135658658686563993}
-  takeoffLenght: 50
 --- !u!54 &6190325575941893441
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -936,7 +936,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4556339473692233834}
-  - component: {fileID: 5393444597967572971}
   - component: {fileID: 6470102469199444142}
   - component: {fileID: 836010218894075005}
   - component: {fileID: 5348606901440566363}
@@ -964,22 +963,6 @@ Transform:
   m_Father: {fileID: 357864791860063587}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5393444597967572971
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5916338457548661917}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea6bf9033feb8da4b809d7e517cd3e62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  airPlaneView: {fileID: 6909234110963065681}
-  freeLook: {fileID: 1172831711446994066}
-  cameraDefaultFov: 40
-  cameraTurboFov: 60
 --- !u!20 &6470102469199444142
 Camera:
   m_ObjectHideFlags: 0

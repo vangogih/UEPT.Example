@@ -256,7 +256,6 @@ MonoBehaviour:
   turbineLightTurbo: 5
   turbineLights: []
   crashCollidersRoot: {fileID: 4339515733228734105}
-  takeoffLenght: 30
 --- !u!54 &4430503716522051898
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -734,7 +733,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3713582151656655280}
-  - component: {fileID: 9142442929003530808}
   - component: {fileID: 2240807780857026846}
   - component: {fileID: 5928268444918540736}
   - component: {fileID: 7476047488000785961}
@@ -762,22 +760,6 @@ Transform:
   m_Father: {fileID: 7313964542495679156}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9142442929003530808
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4742853880209487611}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea6bf9033feb8da4b809d7e517cd3e62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  airPlaneView: {fileID: 2412993879562921030}
-  freeLook: {fileID: 5360060981663981588}
-  cameraDefaultFov: 40
-  cameraTurboFov: 60
 --- !u!20 &2240807780857026846
 Camera:
   m_ObjectHideFlags: 0
