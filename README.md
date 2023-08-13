@@ -1,93 +1,25 @@
-# Описание задания
+UEPT.Example
+===
 
-Прототип трехмерной игры, бой самолетов-амфибий.
+An example project with [unity-empty-project-template](https://github.com/vangogih/unity-empty-project-template) structure.
 
-Вид камеры сзади нашего самолета, управляем самолетом джойстиком влево-вправо, вверх-вниз. Самолет летит вперед автоматически.
+This is a real test assignment from DataSakura company.
 
-Под самолетом вода (просто синяя плоскость). Если самолет летит ниже воды, его скорость становится в 2 раза медленнее.
+## Description
 
-Есть кнопка стрельбы, при ее нажатии вылетает пуля и летит вперед.
+Prototype three-dimensional game, amphibious airplane combat.
 
-Также есть вражеский самолет, который летит по примитивному алгоритму: меняет курс в направлении нашего самолета, и при расстоянии меньше N начинает в нас стрелять. При этом его скорость меньше нашей на X процентов.
+Camera view from behind our airplane, control the airplane with a joystick left-right, up-down. The airplane flies forward automatically.
 
-При попадании в любой самолет игра запускается заново.
+There is water below the airplane (just a blue plane). If the plane flies below the water, its speed becomes 2 times slower.
 
-- Любая версия Юнити
-- Любые сторонние библиотеки
-- Графика не нужна
+There is a fire button, when you press it, a bullet comes out and flies forward.
 
-# Комментарии по выполнению
+There is also an enemy plane, which flies according to a primitive algorithm: it changes course in the direction of our plane, and at a distance less than N starts shooting at us. At the same time its speed is less than ours by X percent.
 
-AA - Amphibious Aircraft
+When hitting any airplane, the game starts over.
 
-В процессе выполнения самым важным было: попадание в сроки, полное выполнение всех пунктов ТЗ.
+- Any version of Unity
+- Any third-party libraries
+- No graphics needed
 
-Результат: все пункты ТЗ выполнены, сроки соблюдены
-
-Изначальная оценка была 24-26 часов:
-```text
-1. Джойстик 3-4 часа
-2. Базовая настройка проекта 1-2 час
-3. Вода, замедление, стрельба 2-3 часа
-4. Вражеский самолет 16 часов
-5. Игровой цикл 2-3 часа
-```
-По итогу не дооценил механизм перемещения самолета, потому на него ушло больше времени. Зато AI заняло меньше времени.
-
-В обозначенные 24-26 часов удалось попасть. Разбивка по задачами такая:
-
-```text
-- Настройка проекта                                 1 час   26 минут
-- Джойстик                                          1 час   55 минут
-- Игровой цикл                                      1 час   45 минут
-- Управление самолетом                              7 часов 44 минуты
-- AI и вражеский самолет                            7 часов 26 минут
-- Вода, замедление, стрельба                        3 часа  21 минута
-- Улучшения (рефакторинг, тонкая настройка билда)   2 часа 22 минуты
-_____________________________________________________________________
-Итого:                                              25 часов 59 минут
-```
-
-# Улучшения, которые хотелось сделать, но не успелось
-
-- Улучшение системы прицеливания. Индикатор UI для стрельбы с упреждением.
-- Индикация противника в UI (стрелка с направлением).
-- Несколько типов самолетов. По факту сделано на 90%. Нужно только конфиги уровней сделать
-- Конфигурируемые уровни (кол-во ботов, типы самолетов)
-
-# Технический долг
-
-Поскольку первостепенные задачи: попасть в оценку и выполнить все пункты ТЗ, то в некоторых местах код не оптимален с точки зрения дизайна, а именно:
-
-```text
-PlaneView - там данные хранятся вместе с отображением. В идеале нужно параметры самолетов вынести в конфиги.
-WaterBuffService и BotBrain - нужно объединить в один общий механизм обновления.
-ShootingService - есть ощущение что плохо продуман, но у него пока слишком маленький пул ответственности. Нужно держать в голове, что скорее всего будет переписан при расширении.
-```
-
-# Билды
-
-Всего получилось 3 билда:
-
-- [1.0](https://gitlab.com/vangogih/data_sakura_assigment/-/tags/1.0) - первый билд как только были выполнены все пункты ТЗ
-- [1.1](https://gitlab.com/vangogih/data_sakura_assigment/-/tags/1.1) - второй билд. Более тонко настроил проект. Проставил Unlit шейдеры, сделал минимальную графику, проставил targetFrameRate
-- [1.2](https://gitlab.com/vangogih/data_sakura_assigment/-/tags/1.2) - третий - финальный билд. Оптимизировал размер билда + проставил настройки на перформанс (c++ - master, il2cpp - faster(smaller))
-
-# Как запустить проект
-
-- устанавливаете unity 2022.3.0
-- клонируете репозиторий
-- запускаете через Unity Hub
-- в проекте выбираете сцену 0.Bootstrap или прожимаете Alt+1
-- запускаете
-
-Конфигурация самолетов в префабах: `Assets/_Project/Resources/Planes`
-
-Конфигурация всех остальных параметров в конфиге: `Assets/_Project/Resources/Config`
-
-# Ресурсы
-
-- [Видео](https://drive.google.com/file/d/1W2IWhdAZqaFNyizuDjzSKPcoPAx7mFJK/view?usp=sharing)
-- [Билд версия 1.0](https://drive.google.com/file/d/11QMdEsEU31honY8zkPHlUgmqv3uyLxF7/view?usp=sharing) - 52.8mb
-- [Билд версия 1.1](https://drive.google.com/file/d/1jyRYAMJL0Zfq5TMbl5E9U8vSGlbh_uYd/view?usp=sharing) - 52.6mb
-- [Билд версия 1.2](https://drive.google.com/file/d/1Exzv-K6S8eoyym7c6EpjkhT2XDVTT6ue/view?usp=sharing) - 35.7mb
